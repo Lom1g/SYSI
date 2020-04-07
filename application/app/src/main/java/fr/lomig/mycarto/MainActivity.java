@@ -11,6 +11,10 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -19,6 +23,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.concurrent.locks.Lock;
@@ -26,9 +31,11 @@ import java.util.concurrent.locks.Lock;
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
     private static final int PERMS_CALL_ID = 1234;
+    private static final int MAP_TYPE_SATELLITE = 2;
     private LocationManager lm;
     private MapFragment mapFragment;
     private GoogleMap googleMap;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         FragmentManager fragmentManager = getFragmentManager();
         mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.map);
     }
+
 
     @Override
     protected void onResume() {
@@ -90,10 +98,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 MainActivity.this.googleMap = googleMap;
-                googleMap.moveCamera(CameraUpdateFactory.zoomBy(15));
+                googleMap.moveCamera(CameraUpdateFactory.zoomBy(10));
                 googleMap.setMyLocationEnabled(true);
                 googleMap.addMarker(new MarkerOptions().position(new LatLng(48.383846,-4.520396))
                                                        .title("Home"));
+                googleMap.setMapType(MAP_TYPE_SATELLITE);
             }
         });
     }
