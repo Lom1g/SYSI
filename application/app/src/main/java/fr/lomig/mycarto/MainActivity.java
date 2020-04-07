@@ -125,13 +125,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     @Override
     public void onLocationChanged(Location location) {
-        double latitude =  location.getLatitude();
-        double longitude = location.getLongitude();
 
-        Toast.makeText(this, "Location: " + latitude + "/" + longitude, Toast.LENGTH_LONG).show();
-        if(googleMap!=null){
-            LatLng googleLocation = new LatLng(latitude,longitude);
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(googleLocation));
-        }
     }
 }
