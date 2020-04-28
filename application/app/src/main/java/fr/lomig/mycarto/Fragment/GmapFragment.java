@@ -75,6 +75,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onLocationChanged(Location location) {
                 userLatLong = new LatLng(location.getLatitude(), location.getLongitude());
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLong,15));
             }
 
             @Override
@@ -94,10 +95,9 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
         };
 
         askLocationPermission();
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLong,15));
-        googleMap.setMyLocationEnabled(true);
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(48.3837, -4.5203)).title("Home"));
-        googleMap.setMapType(MAP_TYPE_SATELLITE);
+        map.setMyLocationEnabled(true);
+        map.addMarker(new MarkerOptions().position(new LatLng(48.3837, -4.5203)).title("Home"));
+        map.setMapType(MAP_TYPE_SATELLITE);
     }
 
     private void askLocationPermission() {
@@ -107,11 +107,10 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                 if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 180000, 50, locationListener);
                 Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                userLatLong = new LatLng(lastLocation.getLatitude(),lastLocation.getLongitude());
-                map.moveCamera(CameraUpdateFactory.newLatLng(userLatLong));
+                userLatLong = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLong,15));
             }
 
             @Override
