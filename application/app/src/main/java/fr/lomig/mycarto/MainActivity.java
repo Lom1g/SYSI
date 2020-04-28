@@ -38,7 +38,7 @@ import fr.lomig.mycarto.Fragment.SearchFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private LocationManager locationManager ;
+    private LocationManager locationManager;
     private LocationListener locationListener;
     private DrawerLayout drawer;
 
@@ -119,7 +119,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SearchFragment()).commit();
                 break;
             case R.id.nav_gmap:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new GmapFragment()).commit();
+                if (ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new GmapFragment()).commit();
+                }
+                else{
+                    askLocationPermission();
+                }
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
