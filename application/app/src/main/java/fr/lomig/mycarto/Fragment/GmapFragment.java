@@ -108,6 +108,9 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                     return;
                 }
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 180000, 50, locationListener);
+                Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                userLatLong = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLong,15));
             }
 
             @Override
