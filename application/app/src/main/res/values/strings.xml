@@ -18,4 +18,6 @@
     <string name="register_title">Inscription</string>
     <string name="email">Email</string>
     <string name="password2">Password</string>
+    <string name="already">Already registered? Click here</string>
+    <string name="createaccount">New here? Create account</string>
 </resources>

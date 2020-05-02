@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_gmap:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new GmapFragment()).commit();
                 break;
+
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;

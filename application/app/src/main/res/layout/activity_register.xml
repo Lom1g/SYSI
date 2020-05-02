@@ -24,14 +24,15 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_pseudo"
-            android:inputType="text"
-            android:singleLine="true"
-            android:imeOptions="actionNext"
+            android:id="@+id/pseudo"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:autofillHints="Pseudo"
             android:hint="@string/pseudo"
-            android:autofillHints="Pseudo" />
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textCursorDrawable="@color/design_default_color_secondary" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -41,7 +42,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_email"
+            android:id="@+id/email"
             android:inputType="textEmailAddress"
             android:singleLine="true"
             android:imeOptions="actionNext"
@@ -57,7 +58,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_password"
+            android:id="@+id/password"
             android:inputType="textPassword"
             android:layout_width="fill_parent"
             android:singleLine="true"
@@ -73,7 +74,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_password2"
+            android:id="@+id/password2"
             android:inputType="textPassword"
             android:layout_width="fill_parent"
             android:singleLine="true"
@@ -84,14 +85,23 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btn_send"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/register"
+        android:id="@+id/btn_Register"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="@string/register" />
+
+    <TextView
+        android:id="@+id/already"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/already"
+        android:visibility="visible" />
+
     <ProgressBar
-        android:id="@+id/pb_loader"
+        android:id="@+id/progressBar"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:visibility="invisible"
