@@ -8,10 +8,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import fr.lomig.mycarto.Fragment.GmapFragment;
 import fr.lomig.mycarto.Fragment.ProfilFragment;
@@ -55,6 +57,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_gmap:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new GmapFragment()).commit();
                 break;
+
+            case R.id.nav_logout:
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getApplicationContext(),Login.class));
+                finish();
 
         }
         drawer.closeDrawer(GravityCompat.START);
