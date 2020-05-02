@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -14,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import android.renderscript.Script;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,10 +67,15 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
 
         locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
+            @SuppressLint("MissingPermission")
             @Override
             public void onLocationChanged(Location location) {
-                userLatLong = new LatLng(location.getLatitude(), location.getLongitude());
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLong, 15));
+                if (location != null) {
+                    userLatLong = new LatLng(location.getLatitude(), location.getLongitude());
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLong, 15));
+                } else {
+                    locationManager.requestLocationUpdates(String.valueOf(locationManager.getBestProvider(new Criteria(),true)),180000,50,locationListener);
+                }
             }
 
             @Override
@@ -89,9 +96,9 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
         map = googleMap;
 
         @SuppressLint("MissingPermission") Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        userLatLong = new LatLng(lastLocation.getLatitude(),lastLocation.getLongitude());
+        userLatLong = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
         map.setMyLocationEnabled(true);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLong,15));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLong, 15));
         map.addMarker(new MarkerOptions().position(new LatLng(48.3837, -4.5203)).title("Home"));
         map.setMapType(MAP_TYPE_SATELLITE);
     }

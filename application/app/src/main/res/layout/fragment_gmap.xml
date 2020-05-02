@@ -8,7 +8,7 @@
     tools:context=".Fragment.GmapFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
+    <fragment
         android:id="@+id/gmap"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
