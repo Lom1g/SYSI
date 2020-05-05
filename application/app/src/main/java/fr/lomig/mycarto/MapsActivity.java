@@ -13,8 +13,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    //Initialize Variable
-    GoogleMap gMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,26 +28,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap map) {
-
-        gMap = map;
-
-        gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                //Creating marker
-                MarkerOptions markerOptions = new MarkerOptions();
-                //Set Marker Position
-                markerOptions.position(latLng);
-                //Set Latitude and Longitude on Marker
-                markerOptions.title(latLng.latitude+":"+latLng.longitude);
-                //Clear the previously Click position
-                gMap.clear();
-                //Zoom the Marker
-                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
-                //Add Marker on map
-                gMap.addMarker(markerOptions);
-            }
-        });
 
     }
 }

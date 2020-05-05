@@ -64,7 +64,29 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
+
+        final GoogleMap gMap = googleMap;
+
+        gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                //Creating marker
+                MarkerOptions markerOptions = new MarkerOptions();
+                //Set Marker Position
+                markerOptions.position(latLng);
+                //Set Latitude and Longitude on Marker
+                markerOptions.title(latLng.latitude + ":" + latLng.longitude);
+                //Clear the previously Click position
+                map.clear();
+                //Zoom the Marker
+                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
+                //Add Marker on map
+                gMap.addMarker(markerOptions);
+                //remove markers;
+            }
+        });
+
 
         locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
@@ -105,6 +127,8 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
         map.setMyLocationEnabled(true);
         map.addMarker(new MarkerOptions().position(new LatLng(48.3837, -4.5203)).title("Home"));
         map.setMapType(MAP_TYPE_SATELLITE);
+
+
 
 
     }
