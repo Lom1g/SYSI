@@ -2,7 +2,9 @@ package fr.lomig.mycarto.Fragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -14,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import android.renderscript.Script;
 import android.view.LayoutInflater;
@@ -29,6 +32,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
+import fr.lomig.mycarto.MainActivity;
 import fr.lomig.mycarto.R;
 
 
@@ -42,6 +46,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
     private LocationManager locationManager;
     private LocationListener locationListener;
     private LatLng userLatLong;
+    private FragmentActivity activity;
 
 
     public GmapFragment() {
@@ -53,6 +58,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_gmap, container, false);
+        this.activity=this.getActivity();
         return view;
     }
 
@@ -72,7 +78,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onMapClick(LatLng latLng) {
                 //Creating marker
-                MarkerOptions markerOptions = new MarkerOptions();
+                final MarkerOptions markerOptions = new MarkerOptions();
                 //Set Marker Position
                 markerOptions.position(latLng);
                 //Set Latitude and Longitude on Marker
@@ -81,9 +87,21 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                 map.clear();
                 //Zoom the Marker
                 gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
-                //Add Marker on map
-                gMap.addMarker(markerOptions);
-                //remove markers;
+                AlertDialog.Builder popupValid = new AlertDialog.Builder(activity);
+                popupValid.setTitle("Créer point ?");
+                popupValid.setPositiveButton("oui", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        gMap.addMarker(markerOptions);
+                    }
+                });
+                popupValid.setNegativeButton("non", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                popupValid.show();
             }
         });
 
