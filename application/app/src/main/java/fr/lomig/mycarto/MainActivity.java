@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -17,6 +18,7 @@ import android.location.LocationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+
 import com.google.android.material.navigation.NavigationView;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -25,6 +27,7 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 import com.google.firebase.auth.FirebaseAuth;
+
 import fr.lomig.mycarto.Fragment.GmapFragment;
 import fr.lomig.mycarto.Fragment.ProfilFragment;
 import fr.lomig.mycarto.Fragment.SearchFragment;
@@ -53,8 +56,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         askLocationPermission();
 
         if (savedInstanceState == null) {
-           getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfilFragment()).commit();
-           navigationView.setCheckedItem(R.id.nav_profil);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfilFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_profil);
         }
     }
 
@@ -114,15 +117,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_gmap:
                 if (ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new GmapFragment()).commit();
-                }
-                else{
+                } else {
                     askLocationPermission();
                 }
                 break;
 
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getApplicationContext(),Login.class));
+                startActivity(new Intent(getApplicationContext(), Login.class));
                 finish();
 
         }
