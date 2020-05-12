@@ -78,7 +78,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                 //Set Latitude and Longitude on Marker
                 markerOptions.title(latLng.latitude + ":" + latLng.longitude);
                 //Clear the previously Click position
-                //map.clear();
+                map.clear();
                 //Zoom the Marker
                 gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
                 //Add Marker on map
