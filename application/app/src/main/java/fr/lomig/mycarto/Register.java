@@ -103,6 +103,7 @@ public class Register extends AppCompatActivity {
                             user.put("fName",pseudo);
                             user.put("email",email);
                             user.put("rank","user");
+                            user.put("points",0);
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
