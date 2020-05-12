@@ -18,6 +18,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -59,13 +60,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
+
         userId = fAuth.getCurrentUser().getUid();
-        final DocumentReference documentReference = fStore.collection("users").document(userId);
+
+        DocumentReference documentReference = fStore.collection("users").document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                username.setText(documentSnapshot.getString("fName"));
-                nb_point.setText(documentSnapshot.getString("points"));
+                Log.d("TAG", documentSnapshot.getString("fName"));
+                Log.d("TAG", documentSnapshot.getString("points"));
+                //username.setText(documentSnapshot.getString("fName"));
+                //nb_point.setText(documentSnapshot.getString("points"));
             }
         });
 
