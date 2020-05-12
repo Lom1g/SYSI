@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "703210027850",
+    "firebase_url": "https://mycarto-211b5.firebaseio.com",
+    "project_id": "mycarto-211b5",
+    "storage_bucket": "mycarto-211b5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:703210027850:android:029a7c946521b14aec9fb3",
+        "android_client_info": {
+          "package_name": "fr.lomig.mycarto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "703210027850-n7hvt6o8q1uoo6itknpv3t9rr2kskvca.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.lomig.mycarto",
+            "certificate_hash": "607d53420d789b683eba375e25a94222b3f03521"
+          }
+        },
+        {
+          "client_id": "703210027850-missas69110vcn6h8jcjb1t2n4neo50e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfY85ezPWZ2vLGiCajwAQhpQBJIMTGUsI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "703210027850-missas69110vcn6h8jcjb1t2n4neo50e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
