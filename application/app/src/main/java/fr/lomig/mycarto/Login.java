@@ -133,7 +133,6 @@ public class Login extends AppCompatActivity {
                             });
                         } else {
                             Toast.makeText(Login.this, "Email is required!", Toast.LENGTH_SHORT).show();
-                            Log.v("CARO", "JE SUIS PASSE LA");
                         }
                     }
                 });
