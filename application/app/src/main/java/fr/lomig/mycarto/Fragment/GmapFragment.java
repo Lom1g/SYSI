@@ -84,14 +84,14 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                 //Set Latitude and Longitude on Marker
                 markerOptions.title(latLng.latitude + ":" + latLng.longitude);
                 //Clear the previously Click position
-                map.clear();
-                //Zoom the Marker
-                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
+                //map.clear();
                 AlertDialog.Builder popupValid = new AlertDialog.Builder(activity);
                 popupValid.setTitle("Créer point ?");
                 popupValid.setPositiveButton("oui", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        //Zoom the Marker
+                        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
                         gMap.addMarker(markerOptions);
                     }
                 });
