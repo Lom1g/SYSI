@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 Log.d("TAG", documentSnapshot.getString("fName"));
-                Log.d("TAG", documentSnapshot.getString("points"));
+                Log.d("TAG", documentSnapshot.getLong("points").toString());
                 //username.setText(documentSnapshot.getString("fName"));
                 //nb_point.setText(documentSnapshot.getString("points"));
             }
