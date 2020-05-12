@@ -76,7 +76,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
 
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
-            public void onMapClick(LatLng latLng) {
+            public void onMapClick(final LatLng latLng) {
                 //Creating marker
                 final MarkerOptions markerOptions = new MarkerOptions();
                 //Set Marker Position
