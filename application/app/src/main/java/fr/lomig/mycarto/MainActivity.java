@@ -9,24 +9,32 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+<<<<<<< HEAD
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+=======
+import android.content.Intent;
+>>>>>>> login/resister2
 import android.os.Bundle;
 import android.view.MenuItem;
 
 
 
 import com.google.android.material.navigation.NavigationView;
+<<<<<<< HEAD
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+=======
+import com.google.firebase.auth.FirebaseAuth;
+>>>>>>> login/resister2
 
 import fr.lomig.mycarto.Fragment.GmapFragment;
 import fr.lomig.mycarto.Fragment.ProfilFragment;
@@ -123,6 +131,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     askLocationPermission();
                 }
                 break;
+
+            case R.id.nav_logout:
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getApplicationContext(),Login.class));
+                finish();
+
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;

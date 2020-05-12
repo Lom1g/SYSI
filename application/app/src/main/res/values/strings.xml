@@ -10,7 +10,17 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="username">Username</string>
-    <string name="login_title">SYSI</string>
+    <string name="login_title">Connexion</string>
     <string name="login_btn">Login</string>
     <string name="password">Password</string>
+    <string name="register">S\'inscrire</string>
+    <string name="login">Se connecter</string>
+    <string name="pseudo">Pseudo</string>
+    <string name="register_title">Inscription</string>
+    <string name="email">Email</string>
+    <string name="password2">Retype password</string>
+    <string name="already">Déjà inscrit? Cliquez ici</string>
+    <string name="createaccount">Vous êtes nouveau? Créer un compte</string>
+    <string name="logout">Logout</string>
+    <string name="forgot_password">Mot de passe oublié?</string>
 </resources>
