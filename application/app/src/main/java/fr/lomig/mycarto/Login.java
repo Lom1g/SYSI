@@ -28,7 +28,7 @@ public class Login extends AppCompatActivity {
 
     private TextInputLayout til_email, til_password;
     Button mLoginBtn;
-    TextView mCreateBtn,forgotTextLink;
+    TextView mCreateBtn, forgotTextLink;
     FirebaseAuth fAuth;
     ProgressBar progressBar;
 
@@ -45,6 +45,11 @@ public class Login extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         forgotTextLink = findViewById(R.id.forgotPassword);
 
+        if (fAuth.getCurrentUser() != null) {
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            finish();
+        }
+
 
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,17 +61,17 @@ public class Login extends AppCompatActivity {
                 til_email.setErrorEnabled(false);
                 til_password.setErrorEnabled(false);
 
-                if(TextUtils.isEmpty(email)){
+                if (TextUtils.isEmpty(email)) {
                     til_email.setError("Email is Required.");
                     return;
                 }
 
-                if(TextUtils.isEmpty(password)){
+                if (TextUtils.isEmpty(password)) {
                     til_password.setError("Password is Required.");
                     return;
                 }
 
-                if(password.length()<6){
+                if (password.length() < 6) {
                     til_password.setError("Password must be >=6 characters.");
                     return;
                 }
@@ -75,14 +80,14 @@ public class Login extends AppCompatActivity {
 
                 //authentificate the user
 
-                fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(Login.this, "Logged in successfully.",Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                        }else{
-                            Toast.makeText(Login.this, "Error!"+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                        if (task.isSuccessful()) {
+                            Toast.makeText(Login.this, "Logged in successfully.", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        } else {
+                            Toast.makeText(Login.this, "Error!" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
                         }
                     }
@@ -95,7 +100,7 @@ public class Login extends AppCompatActivity {
         mCreateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),Register.class));
+                startActivity(new Intent(getApplicationContext(), Register.class));
             }
         });
 
@@ -114,7 +119,7 @@ public class Login extends AppCompatActivity {
                         //extract the email en send reset link
                         String mail = resetMail.getText().toString();
 
-                        if(!TextUtils.isEmpty(mail)) {
+                        if (!TextUtils.isEmpty(mail)) {
                             fAuth.sendPasswordResetEmail(mail).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -126,9 +131,9 @@ public class Login extends AppCompatActivity {
                                     Toast.makeText(Login.this, "Error! Reset link is not sent" + e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
-                        }else{
-                            Toast.makeText(Login.this, "Email is required!",Toast.LENGTH_SHORT).show();
-                            Log.v("CARO","JE SUIS PASSE LA");
+                        } else {
+                            Toast.makeText(Login.this, "Email is required!", Toast.LENGTH_SHORT).show();
+                            Log.v("CARO", "JE SUIS PASSE LA");
                         }
                     }
                 });
