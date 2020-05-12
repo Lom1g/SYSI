@@ -29,6 +29,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
+import fr.lomig.mycarto.Lieu;
 import fr.lomig.mycarto.R;
 
 
@@ -71,6 +72,8 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
+                Lieu lieu = new Lieu();
+                lieu.setPosition(latLng);
                 //Creating marker
                 MarkerOptions markerOptions = new MarkerOptions();
                 //Set Marker Position
