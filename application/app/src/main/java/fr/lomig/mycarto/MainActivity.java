@@ -53,10 +53,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         askLocationPermission();
 
         //pour afficher un ecran en premier lieu
-        if (savedInstanceState == null) {
-           getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new GmapFragment()).commit();
-           navigationView.setCheckedItem(R.id.nav_gmap);
-        }
+        //if (savedInstanceState == null) {
+        //   getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new GmapFragment()).commit();
+        //   navigationView.setCheckedItem(R.id.nav_gmap);
+        //}
     }
 
     private void askLocationPermission() {
