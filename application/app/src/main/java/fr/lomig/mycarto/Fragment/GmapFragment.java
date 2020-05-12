@@ -64,7 +64,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onMapReady(final GoogleMap googleMap) {
+    public void onMapReady(GoogleMap googleMap) {
 
         final GoogleMap gMap = googleMap;
 
