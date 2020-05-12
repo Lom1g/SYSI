@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.d("TAG", documentSnapshot.getString("fName"));
                 Log.d("TAG", documentSnapshot.getLong("points").toString());
                 //username.setText(documentSnapshot.getString("fName"));
-                //nb_point.setText(documentSnapshot.getString("points"));
+                //nb_point.setText(documentSnapshot.getLong("points").toString());
             }
         });
 
