@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private LocationManager locationManager;
     private LocationListener locationListener;
     private DrawerLayout drawer;
-    private TextView username,nb_point;
+    private TextView username, nb_point;
     private FirebaseAuth fAuth;
     private FirebaseFirestore fStore;
     private String userId;
@@ -55,24 +56,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        username = findViewById(R.id.username);
-        nb_point = findViewById(R.id.nb_point);
-
-        fAuth = FirebaseAuth.getInstance();
-        fStore = FirebaseFirestore.getInstance();
-
-        userId = fAuth.getCurrentUser().getUid();
-
-        DocumentReference documentReference = fStore.collection("users").document(userId);
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                Log.d("TAG", documentSnapshot.getString("fName"));
-                Log.d("TAG", documentSnapshot.getLong("points").toString());
-                //username.setText(documentSnapshot.getString("fName"));
-                //nb_point.setText(documentSnapshot.getLong("points").toString());
-            }
-        });
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -85,6 +68,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         askLocationPermission();
+
+        View headerView = navigationView.getHeaderView(0);
+        username = (TextView) headerView.findViewById(R.id.username);
+        nb_point = (TextView) headerView.findViewById(R.id.nb_point);
+
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+
+        userId = fAuth.getCurrentUser().getUid();
+
+        DocumentReference documentReference = fStore.collection("users").document(userId);
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                username.setText(documentSnapshot.getString("fName"));
+                nb_point.setText(documentSnapshot.getLong("points").toString());
+            }
+        });
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfilFragment()).commit();
