@@ -70,8 +70,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         askLocationPermission();
 
         View headerView = navigationView.getHeaderView(0);
-        username = (TextView) headerView.findViewById(R.id.username);
-        nb_point = (TextView) headerView.findViewById(R.id.nb_point);
+        username = headerView.findViewById(R.id.username);
+        nb_point = headerView.findViewById(R.id.nb_point);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfilFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_search);
+            navigationView.setCheckedItem(R.id.nav_profil);
         }
     }
 
