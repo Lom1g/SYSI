@@ -21,7 +21,7 @@ public class UsersAdapter extends FirestoreRecyclerAdapter<UsersModel, UsersAdap
 
     @Override
     protected void onBindViewHolder(@NonNull UsersHolder usersHolder, int i, @NonNull UsersModel usersModel) {
-        usersHolder.username.setText(usersModel.getName());
+        usersHolder.fName.setText(usersModel.getfName());
         usersHolder.email.setText(usersModel.getEmail());
         usersHolder.rank.setText(usersModel.getRank());
         usersHolder.points.setText(String.valueOf(usersModel.getPoints()));
@@ -35,14 +35,14 @@ public class UsersAdapter extends FirestoreRecyclerAdapter<UsersModel, UsersAdap
     }
 
     static class UsersHolder extends RecyclerView.ViewHolder {
-        TextView username;
+        TextView fName;
         TextView email;
         TextView rank;
         TextView points;
 
         UsersHolder(View itemView) {
             super(itemView);
-            username = itemView.findViewById(R.id.username);
+            fName = itemView.findViewById(R.id.username);
             email = itemView.findViewById(R.id.email);
             rank = itemView.findViewById(R.id.rank);
             points = itemView.findViewById(R.id.points);
