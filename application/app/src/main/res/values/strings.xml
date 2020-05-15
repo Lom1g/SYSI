@@ -23,5 +23,6 @@
     <string name="createaccount">Vous êtes nouveau? Créer un compte</string>
     <string name="logout">Logout</string>
     <string name="forgot_password">Mot de passe oublié?</string>
-    <string name="ic_admin">Administation</string>
+    <string name="ic_admin">Administration</string>
+    <string name="ic_notif">Notification</string>
 </resources>
