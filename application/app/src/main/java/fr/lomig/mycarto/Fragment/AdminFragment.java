@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment;
 
 import fr.lomig.mycarto.R;
 
-public class ProfilFragment extends Fragment {
+public class AdminFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_profil,container,false);
+        return inflater.inflate(R.layout.fragment_admin,container,false);
     }
 }

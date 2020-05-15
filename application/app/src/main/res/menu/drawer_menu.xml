@@ -10,14 +10,14 @@
             android:title="@string/map_title" />
 
         <item
-            android:id="@+id/nav_profil"
-            android:icon="@drawable/ic_profil"
-            android:title="@string/profile_title" />
-
-        <item
             android:id="@+id/nav_search"
             android:icon="@drawable/ic_search"
             android:title="@string/search_title" />
+
+        <item
+            android:id="@+id/nav_admin"
+            android:icon="@drawable/ic_admin"
+            android:title="@string/ic_admin" />
 
         <item
             android:id="@+id/nav_logout"
