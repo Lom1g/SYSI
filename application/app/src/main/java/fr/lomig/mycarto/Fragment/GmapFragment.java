@@ -113,8 +113,6 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                 final MarkerOptions markerOptions = new MarkerOptions();
                 //Set Marker Position
                 markerOptions.position(latLng);
-                //Clear the previously Click position
-                //map.clear();
                 final EditText title = lieu.findViewById(R.id.entertitle);
                 lieu.getYesButton().setOnClickListener(new View.OnClickListener() {
                     @Override
