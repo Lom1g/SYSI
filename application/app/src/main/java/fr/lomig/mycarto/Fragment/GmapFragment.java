@@ -1,11 +1,7 @@
 package fr.lomig.mycarto.Fragment;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -14,15 +10,12 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
-import android.renderscript.Script;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,8 +25,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-import fr.lomig.mycarto.Class_Lieu;
-import fr.lomig.mycarto.MainActivity;
 import fr.lomig.mycarto.R;
 
 
@@ -73,13 +64,11 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(final GoogleMap googleMap) {
 
-        final Class_Lieu classlieu = new Class_Lieu();
         final GoogleMap gMap = googleMap;
 
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(final LatLng latLng) {
-                classlieu.show(getFragmentManager(), "example class dialog");
                 //Creating marker
                 final MarkerOptions markerOptions = new MarkerOptions();
                 //Set Marker Position
