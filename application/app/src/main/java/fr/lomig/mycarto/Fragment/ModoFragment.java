@@ -35,9 +35,9 @@ public class ModoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_modo, container, false);
-        btn_gest_modo= (Button) rootView.findViewById(R.id.btn_gest_modo);
-        btn_gest_proposition = (Button) rootView.findViewById(R.id.btn_gest_proposition);
-        btn_gest_signalement = (Button) rootView.findViewById(R.id.btn_gest_signalement);
+        btn_gest_modo= rootView.findViewById(R.id.btn_gest_modo);
+        btn_gest_proposition = rootView.findViewById(R.id.btn_gest_proposition);
+        btn_gest_signalement = rootView.findViewById(R.id.btn_gest_signalement);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -63,6 +63,20 @@ public class ModoFragment extends Fragment {
             public void onClick(View v) {
                 Log.w("TAG1","T as bien appuyé sur le bouton mon con");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new GestionModoFragment()).commit();
+            }
+        });
+
+        btn_gest_proposition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new GestionPropositionFragment()).commit();
+            }
+        });
+
+        btn_gest_signalement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new GestionSignalementFragment()).commit();
             }
         });
 
