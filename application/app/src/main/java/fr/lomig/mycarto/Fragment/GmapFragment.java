@@ -35,6 +35,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import fr.lomig.mycarto.Lieu;
 import fr.lomig.mycarto.MainActivity;
 import fr.lomig.mycarto.R;
+import fr.lomig.mycarto.class_Lieu;
 
 
 /**
@@ -73,12 +74,13 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(final GoogleMap googleMap) {
 
+        final class_Lieu classlieu = new class_Lieu();
         final GoogleMap gMap = googleMap;
-        final Lieu Lieu = null;
 
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(final LatLng latLng) {
+                classlieu.show(getFragmentManager(), "example class dialog");
                 //Creating marker
                 final MarkerOptions markerOptions = new MarkerOptions();
                 //Set Marker Position
