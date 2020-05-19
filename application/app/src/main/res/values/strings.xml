@@ -26,4 +26,7 @@
     <string name="ic_admin">Administration</string>
     <string name="ic_notif">Notification</string>
     <string name="moderation">Moderation</string>
+    <string name="gestion_proposition">Gestion proposition</string>
+    <string name="gestion_signalement">Gestion signalement</string>
+    <string name="gestion_des_moderateurs">Gestion des moderateurs</string>
 </resources>

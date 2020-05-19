@@ -1,12 +1,9 @@
 package fr.lomig.mycarto.Fragment;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,10 +16,9 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 import fr.lomig.mycarto.R;
+import fr.lomig.mycarto.UsersAdapter;
+import fr.lomig.mycarto.UsersModel;
 
 public class AdminFragment extends Fragment {
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();

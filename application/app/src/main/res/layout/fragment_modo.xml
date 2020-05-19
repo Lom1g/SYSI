@@ -5,4 +5,30 @@
     android:orientation="vertical"
     android:background="@android:color/holo_green_dark">
 
+    <Button
+        android:id="@+id/btn_gest_modo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp"
+        android:layout_weight="1"
+        android:text="@string/gestion_des_moderateurs" />
+
+    <Button
+        android:id="@+id/btn_gest_proposition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp"
+        android:layout_weight="1"
+        android:text="@string/gestion_proposition" />
+
+    <Button
+        android:id="@+id/btn_gest_signalement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp"
+        android:layout_weight="1"
+        android:text="@string/gestion_signalement" />
 </LinearLayout>
