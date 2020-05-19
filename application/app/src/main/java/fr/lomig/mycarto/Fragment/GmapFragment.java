@@ -75,8 +75,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
-
-        //final EditText title = null;
+        
         final CustomPopup lieu = new CustomPopup(activity);
         final GoogleMap gMap = googleMap;
         db.collection("spots")
@@ -111,15 +110,14 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                 //Set Marker Position
                 markerOptions.position(latLng);
                 //Clear the previously Click position
-                map.clear();
+                //map.clear();
                 lieu.getYesButton().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //String enterTitle = title.getText().toString();
                         //Set Latitude and Longitude on Marker
                         markerOptions.title("ok");
                         //zoom camera
-                        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
+                        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
                         //addMarker
                         gMap.addMarker(markerOptions);
                         lieu.dismiss();
@@ -173,7 +171,6 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
         }
 
         map.setMyLocationEnabled(true);
-        map.addMarker(new MarkerOptions().position(new LatLng(48.3837, -4.5203)).title("Home"));
         map.setMapType(MAP_TYPE_SATELLITE);
 
 
