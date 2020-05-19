@@ -106,13 +106,21 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(final LatLng latLng) {
+                //Creating marker
                 final MarkerOptions markerOptions = new MarkerOptions();
+                //Set Marker Position
                 markerOptions.position(latLng);
+                //Clear the previously Click position
+                map.clear();
                 lieu.getYesButton().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //String enterTitle = title.getText().toString();
+                        //Set Latitude and Longitude on Marker
                         markerOptions.title("ok");
+                        //zoom camera
                         gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
+                        //addMarker
                         gMap.addMarker(markerOptions);
                         lieu.dismiss();
                     }
@@ -165,7 +173,11 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
         }
 
         map.setMyLocationEnabled(true);
+        map.addMarker(new MarkerOptions().position(new LatLng(48.3837, -4.5203)).title("Home"));
         map.setMapType(MAP_TYPE_SATELLITE);
+
+
+
 
     }
 }
