@@ -89,13 +89,9 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 LatLng latLngMarker = new LatLng((double)document.getData().get("latitude"), (double)document.getData().get("longitude"));
-
                                 MarkerOptions markerOptions = new MarkerOptions();
-
                                 markerOptions.position(latLngMarker);
-
                                 markerOptions.title((String) document.getData().get("title"));
-                                
                                 gMap.addMarker(markerOptions);
                             }
                         } else {
@@ -108,8 +104,6 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(final LatLng latLng) {
-                final MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(latLng);
                 final EditText title = lieu.findViewById(R.id.entertitle);
                 final EditText desc = lieu.findViewById(R.id.enterdescrip);
                 lieu.getYesButton().setOnClickListener(new View.OnClickListener() {
@@ -121,18 +115,23 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                         spot.put("longitude",latLng.longitude);
                         spot.put("description",desc.getText().toString());
                         db.collection("spots").add(spot);
+
+                        MarkerOptions markerOptions = new MarkerOptions();
+                        markerOptions.position(latLng);
                         markerOptions.title(title.getText().toString());
                         gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
                         gMap.addMarker(markerOptions);
                         lieu.dismiss();
                     }
                 });
+
                 lieu.getNoButton().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         lieu.dismiss();
                     }
                 });
+
                 lieu.build();
             }
         });
