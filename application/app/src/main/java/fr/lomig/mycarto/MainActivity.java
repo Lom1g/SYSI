@@ -42,6 +42,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import fr.lomig.mycarto.Fragment.AdminFragment;
 import fr.lomig.mycarto.Fragment.GmapFragment;
+import fr.lomig.mycarto.Fragment.ModoFragment;
 import fr.lomig.mycarto.Fragment.SearchFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         username = headerView.findViewById(R.id.username);
         nb_point = headerView.findViewById(R.id.nb_point);
         final MenuItem admin = menu.findItem(R.id.nav_admin);
+        final MenuItem moderation = menu.findItem(R.id.nav_moderation);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -88,11 +90,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 username.setText(documentSnapshot.getString("fName"));
                 nb_point.setText(documentSnapshot.getLong("points").toString());
-                if (!documentSnapshot.getString("rank").equals("admin")) {
+                if (documentSnapshot.getString("rank").equals("admin")) {
+                    admin.setVisible(true);
+                    moderation.setVisible(false);
+                }
+                else if (documentSnapshot.getString("rank").equals("modo")) {
+                    moderation.setVisible(true);
                     admin.setVisible(false);
                 }
                 else{
-                    admin.setVisible(true);
+                    admin.setVisible(false);
+                    moderation.setVisible(false);
                 }
             }
         });
@@ -163,7 +171,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     askLocationPermission();
                 }
                 break;
-
+            case R.id.nav_moderation:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ModoFragment()).commit();
+                break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(getApplicationContext(), Login.class));

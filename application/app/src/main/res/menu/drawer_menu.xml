@@ -20,6 +20,10 @@
             android:title="@string/ic_notif" />
 
         <item
+            android:id="@+id/nav_moderation"
+            android:icon="@drawable/ic_admin"
+            android:title="@string/moderation" />
+        <item
             android:id="@+id/nav_admin"
             android:icon="@drawable/ic_admin"
             android:title="@string/ic_admin" />
