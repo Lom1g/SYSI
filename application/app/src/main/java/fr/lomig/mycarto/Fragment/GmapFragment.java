@@ -33,7 +33,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 
 import fr.lomig.mycarto.Class_Lieu;
-import fr.lomig.mycarto.Lieu;
 import fr.lomig.mycarto.MainActivity;
 import fr.lomig.mycarto.R;
 
@@ -41,7 +40,7 @@ import fr.lomig.mycarto.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GmapFragment extends Fragment implements OnMapReadyCallback, Class_Lieu.ClassLieuListener {
+public class GmapFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap map;
     private static final int MAP_TYPE_SATELLITE = 2;
@@ -72,17 +71,9 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback, Class_
     }
 
     @Override
-    public void applyTexts(String title) {
-        final Lieu lieutitle = new Lieu();
-
-        lieutitle.setTitle(title);
-    }
-
-    @Override
     public void onMapReady(final GoogleMap googleMap) {
 
         final Class_Lieu classlieu = new Class_Lieu();
-        final Lieu lieu = new Lieu();
         final GoogleMap gMap = googleMap;
 
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -94,7 +85,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback, Class_
                 //Set Marker Position
                 markerOptions.position(latLng);
                 //Set Latitude and Longitude on Marker
-                markerOptions.title(lieu.getTitle());
+                markerOptions.title("ok");
                 //Clear the previously Click position
                 map.clear();
                 gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));

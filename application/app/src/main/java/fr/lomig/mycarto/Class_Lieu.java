@@ -14,10 +14,9 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 public class Class_Lieu extends AppCompatDialogFragment {
     private EditText editTextTitle;
-    private ClassLieuListener listener;
-
+    @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(@NonNull Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -35,27 +34,9 @@ public class Class_Lieu extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String title = editTextTitle.getText().toString();
-                        listener.applyTexts(title);
                     }
                 });
         editTextTitle = view.findViewById(R.id.edit_title);
         return builder.create();
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        try {
-            listener = (ClassLieuListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() +
-                    "must implement ClassLieuListener");
-        }
-    }
-
-    public interface ClassLieuListener{
-        void applyTexts(String title);
-
-
     }
 }
