@@ -35,6 +35,7 @@ public class Class_Lieu extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String title = editTextTitle.getText().toString();
+                        listener.applyTexts(title);
                     }
                 });
         editTextTitle = view.findViewById(R.id.edit_title);

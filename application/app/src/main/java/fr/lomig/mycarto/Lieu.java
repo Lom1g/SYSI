@@ -5,15 +5,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class Lieu {
 
     private String title;
-    private LatLng latlong;
-
-    public LatLng getLatlong() {
-        return latlong;
-    }
-
-    public void setLatlong(LatLng latlong) {
-        this.latlong = latlong;
-    }
+    private LatLng corr;
 
     public String getTitle() {
         return title;
@@ -22,4 +14,13 @@ public class Lieu {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public LatLng getCorr() {
+        return corr;
+    }
+
+    public void setCorr(LatLng corr) {
+        this.corr = corr;
+    }
 }
+
