@@ -106,7 +106,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
             public void onMapClick(final LatLng latLng) {
                 final EditText title = lieu.findViewById(R.id.entertitle);
                 final EditText desc = lieu.findViewById(R.id.enterdescrip);
-                final EditText caté = lieu.findViewById(R.id.entercat);
+                final EditText cate = lieu.findViewById(R.id.entercat);
                 lieu.getYesButton().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -115,7 +115,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                         spot.put("latitude",latLng.latitude);
                         spot.put("longitude",latLng.longitude);
                         spot.put("description",desc.getText().toString());
-                        spot.put("catégorie", caté.getText().toString());
+                        spot.put("category", cate.getText().toString());
                         db.collection("spots").add(spot);
 
                         MarkerOptions markerOptions = new MarkerOptions();
