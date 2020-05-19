@@ -10,7 +10,7 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-public class class_Lieu extends AppCompatDialogFragment {
+public class Class_Lieu extends AppCompatDialogFragment {
     private EditText editTextTilte;
 
     @Override
@@ -36,6 +36,5 @@ public class class_Lieu extends AppCompatDialogFragment {
                 });
         editTextTilte = view.findViewById(R.id.edit_title);
         return builder.create();
-
     }
 }

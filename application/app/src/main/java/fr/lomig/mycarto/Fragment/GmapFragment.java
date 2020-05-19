@@ -32,10 +32,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
+import fr.lomig.mycarto.Class_Lieu;
 import fr.lomig.mycarto.Lieu;
 import fr.lomig.mycarto.MainActivity;
 import fr.lomig.mycarto.R;
-import fr.lomig.mycarto.class_Lieu;
 
 
 /**
@@ -74,7 +74,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(final GoogleMap googleMap) {
 
-        final class_Lieu classlieu = new class_Lieu();
+        final Class_Lieu classlieu = new Class_Lieu();
         final GoogleMap gMap = googleMap;
 
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
