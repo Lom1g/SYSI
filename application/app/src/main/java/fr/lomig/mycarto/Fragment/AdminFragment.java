@@ -1,17 +1,12 @@
 package fr.lomig.mycarto.Fragment;
 
 import android.os.Bundle;
-<<<<<<< HEAD
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-=======
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
->>>>>>> cae0383b0ba068f1ea9e9b48c8d4f0ffe70edf2f
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

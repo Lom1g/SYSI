@@ -1,10 +1,8 @@
 package fr.lomig.mycarto;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,11 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-<<<<<<< HEAD:application/app/src/main/java/fr/lomig/mycarto/UsersAdapter.java
-=======
-import com.google.firebase.firestore.DocumentReference;
+
 import com.google.firebase.firestore.DocumentSnapshot;
->>>>>>> cae0383b0ba068f1ea9e9b48c8d4f0ffe70edf2f:application/app/src/main/java/fr/lomig/mycarto/Fragment/UsersAdapter.java
+
 
 public class UsersAdapter extends FirestoreRecyclerAdapter<UsersModel, UsersAdapter.UsersHolder> {
 
