@@ -1,8 +1,10 @@
 package fr.lomig.mycarto;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -10,10 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+<<<<<<< HEAD:application/app/src/main/java/fr/lomig/mycarto/UsersAdapter.java
+=======
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+>>>>>>> cae0383b0ba068f1ea9e9b48c8d4f0ffe70edf2f:application/app/src/main/java/fr/lomig/mycarto/Fragment/UsersAdapter.java
 
 public class UsersAdapter extends FirestoreRecyclerAdapter<UsersModel, UsersAdapter.UsersHolder> {
 
-    UsersAdapter(@NonNull FirestoreRecyclerOptions<UsersModel> options) {
+    private OnItemClickListener listener;
+
+    public UsersAdapter(@NonNull FirestoreRecyclerOptions<UsersModel> options) {
         super(options);
     }
 
@@ -32,7 +41,7 @@ public class UsersAdapter extends FirestoreRecyclerAdapter<UsersModel, UsersAdap
         return new UsersHolder(v);
     }
 
-    static class UsersHolder extends RecyclerView.ViewHolder {
+    class UsersHolder extends RecyclerView.ViewHolder {
         TextView fName;
         TextView email;
         TextView rank;
@@ -44,6 +53,24 @@ public class UsersAdapter extends FirestoreRecyclerAdapter<UsersModel, UsersAdap
             email = itemView.findViewById(R.id.email);
             rank = itemView.findViewById(R.id.rank);
             points = itemView.findViewById(R.id.points);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION && listener != null){
+                        listener.onItemClick(getSnapshots().getSnapshot(position),position);
+                    }
+                }
+            });
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(DocumentSnapshot documentSnapshot, int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.listener = listener;
     }
 }

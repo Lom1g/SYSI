@@ -7,10 +7,10 @@ public class UsersModel {
     private String rank;
     private long points;
 
-    private UsersModel() {
+    public UsersModel() {
     }
 
-    private UsersModel(String fName, String email, String rank, long points) {
+    public UsersModel(String fName, String email, String rank, long points) {
         this.fName = fName;
         this.email = email;
         this.rank = rank;
