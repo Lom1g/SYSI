@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,6 +26,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
+import fr.lomig.mycarto.CustomPopup;
 import fr.lomig.mycarto.R;
 
 
@@ -64,6 +66,8 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(final GoogleMap googleMap) {
 
+        //final EditText title = null;
+        final CustomPopup lieu = new CustomPopup(activity);
         final GoogleMap gMap = googleMap;
 
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -73,12 +77,28 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                 final MarkerOptions markerOptions = new MarkerOptions();
                 //Set Marker Position
                 markerOptions.position(latLng);
-                //Set Latitude and Longitude on Marker
-                markerOptions.title("ok");
                 //Clear the previously Click position
                 map.clear();
-                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
-                gMap.addMarker(markerOptions);
+                lieu.getYesButton().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //String enterTitle = title.getText().toString();
+                        //Set Latitude and Longitude on Marker
+                        markerOptions.title("ok");
+                        //zoom camera
+                        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
+                        //addMarker
+                        gMap.addMarker(markerOptions);
+                        lieu.dismiss();
+                    }
+                });
+                lieu.getNoButton().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        lieu.dismiss();
+                    }
+                });
+                lieu.build();
             }
         });
 

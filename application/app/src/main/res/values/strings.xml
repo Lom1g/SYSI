@@ -23,4 +23,6 @@
     <string name="createaccount">Vous êtes nouveau? Créer un compte</string>
     <string name="logout">Logout</string>
     <string name="forgot_password">Mot de passe oublié?</string>
+    <string name="yes">OUI</string>
+    <string name="no">NON</string>
 </resources>
