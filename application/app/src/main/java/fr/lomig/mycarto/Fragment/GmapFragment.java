@@ -33,6 +33,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import fr.lomig.mycarto.CustomPopup;
 import fr.lomig.mycarto.R;
 
@@ -117,6 +120,12 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                 lieu.getYesButton().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Map<String, Object> spot = new HashMap<>();
+                        spot.put("title",title.getText().toString());
+                        spot.put("latitude",latLng.latitude);
+                        spot.put("longitude",latLng.longitude);
+                        spot.put("description","");
+                        db.collection("spots").add(spot);
                         //Set Latitude and Longitude on Marker
                         markerOptions.title(title.getText().toString());
                         //zoom camera
