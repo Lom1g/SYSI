@@ -1,7 +1,5 @@
 package fr.lomig.mycarto.Fragment;
 
-import android.app.Activity;
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +10,6 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -21,7 +18,6 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
-import fr.lomig.mycarto.MainActivity;
 import fr.lomig.mycarto.R;
 
 public class ModoFragment extends Fragment {
@@ -35,11 +31,8 @@ public class ModoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_modo, container, false);
-<<<<<<< HEAD
         btn_gest_modo= rootView.findViewById(R.id.btn_gest_modo);
-=======
         btn_gest_modo = rootView.findViewById(R.id.btn_gest_modo);
->>>>>>> 5c32d07a8043fb3b3251081a5f617b0152f7cfc2
         btn_gest_proposition = rootView.findViewById(R.id.btn_gest_proposition);
         btn_gest_signalement = rootView.findViewById(R.id.btn_gest_signalement);
 
