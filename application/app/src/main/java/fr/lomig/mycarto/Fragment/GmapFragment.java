@@ -75,10 +75,10 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
 
         final GoogleMap gMap = googleMap;
         final Lieu Lieu = null;
+
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(final LatLng latLng) {
-                Lieu.setLatlong(latLng);
                 //Creating marker
                 final MarkerOptions markerOptions = new MarkerOptions();
                 //Set Marker Position
@@ -86,24 +86,9 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                 //Set Latitude and Longitude on Marker
                 markerOptions.title(latLng.latitude + ":" + latLng.longitude);
                 //Clear the previously Click position
-                //map.clear();
-                AlertDialog.Builder popupValid = new AlertDialog.Builder(activity);
-                popupValid.setTitle("Créer point ?");
-                popupValid.setPositiveButton("oui", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Zoom the Marker
-                        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
-                        gMap.addMarker(markerOptions);
-                    }
-                });
-                popupValid.setNegativeButton("non", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                popupValid.show();
+                map.clear();
+                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
+                gMap.addMarker(markerOptions);
             }
         });
 
