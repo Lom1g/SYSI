@@ -63,7 +63,6 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_gmap, container, false);
         this.activity=this.getActivity();
         return view;
@@ -109,13 +108,10 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(final LatLng latLng) {
-                //Creating marker
                 final MarkerOptions markerOptions = new MarkerOptions();
-                //Set Marker Position
                 markerOptions.position(latLng);
-                //Clear the previously Click position
-                //map.clear();
                 final EditText title = lieu.findViewById(R.id.entertitle);
+                final EditText desc = lieu.findViewById(R.id.enterdescrip);
                 lieu.getYesButton().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -123,13 +119,10 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                         spot.put("title",title.getText().toString());
                         spot.put("latitude",latLng.latitude);
                         spot.put("longitude",latLng.longitude);
-                        spot.put("description","");
+                        spot.put("description",desc.getText().toString());
                         db.collection("spots").add(spot);
-                        //Set Latitude and Longitude on Marker
                         markerOptions.title(title.getText().toString());
-                        //zoom camera
                         gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
-                        //addMarker
                         gMap.addMarker(markerOptions);
                         lieu.dismiss();
                     }
