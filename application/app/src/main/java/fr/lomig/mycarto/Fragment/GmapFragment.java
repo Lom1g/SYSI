@@ -56,7 +56,6 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
-
     public GmapFragment() {
         // Required empty public constructor
     }
