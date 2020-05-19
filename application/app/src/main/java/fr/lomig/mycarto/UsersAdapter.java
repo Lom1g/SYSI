@@ -12,8 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 public class UsersAdapter extends FirestoreRecyclerAdapter<UsersModel, UsersAdapter.UsersHolder> {
+
+    private OnItemClickListener listener;
 
     public UsersAdapter(@NonNull FirestoreRecyclerOptions<UsersModel> options) {
         super(options);
@@ -34,7 +38,7 @@ public class UsersAdapter extends FirestoreRecyclerAdapter<UsersModel, UsersAdap
         return new UsersHolder(v);
     }
 
-    static class UsersHolder extends RecyclerView.ViewHolder {
+    class UsersHolder extends RecyclerView.ViewHolder {
         TextView fName;
         TextView email;
         TextView rank;
@@ -46,6 +50,24 @@ public class UsersAdapter extends FirestoreRecyclerAdapter<UsersModel, UsersAdap
             email = itemView.findViewById(R.id.email);
             rank = itemView.findViewById(R.id.rank);
             points = itemView.findViewById(R.id.points);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION && listener != null){
+                        listener.onItemClick(getSnapshots().getSnapshot(position),position);
+                    }
+                }
+            });
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(DocumentSnapshot documentSnapshot, int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.listener = listener;
     }
 }
