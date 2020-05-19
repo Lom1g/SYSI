@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +25,18 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 
 import fr.lomig.mycarto.CustomPopup;
 import fr.lomig.mycarto.R;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 
 /**
@@ -41,6 +50,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
     private LocationListener locationListener;
     private LatLng userLatLong;
     private FragmentActivity activity;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
     public GmapFragment() {
@@ -69,6 +79,29 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
         //final EditText title = null;
         final CustomPopup lieu = new CustomPopup(activity);
         final GoogleMap gMap = googleMap;
+        db.collection("spots")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                LatLng latLngMarker = new LatLng((double)document.getData().get("latitude"), (double)document.getData().get("longitude"));
+
+                                MarkerOptions markerOptions = new MarkerOptions();
+
+                                markerOptions.position(latLngMarker);
+
+                                markerOptions.title((String) document.getData().get("title"));
+                                
+                                gMap.addMarker(markerOptions);
+                            }
+                        } else {
+                            Log.w(TAG,"Error getting documents.", task.getException());
+                        }
+                    }
+                });
+
 
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
