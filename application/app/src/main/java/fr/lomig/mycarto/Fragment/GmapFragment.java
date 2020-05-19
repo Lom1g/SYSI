@@ -53,6 +53,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
+
     public GmapFragment() {
         // Required empty public constructor
     }
@@ -75,9 +76,10 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
-        
+
         final CustomPopup lieu = new CustomPopup(activity);
         final GoogleMap gMap = googleMap;
+
         db.collection("spots")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -111,11 +113,12 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                 markerOptions.position(latLng);
                 //Clear the previously Click position
                 //map.clear();
+                final EditText title = lieu.findViewById(R.id.entertitle);
                 lieu.getYesButton().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //Set Latitude and Longitude on Marker
-                        markerOptions.title("ok");
+                        markerOptions.title(title.getText().toString());
                         //zoom camera
                         gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
                         //addMarker
