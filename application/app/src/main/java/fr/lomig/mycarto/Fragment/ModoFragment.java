@@ -27,7 +27,7 @@ import fr.lomig.mycarto.R;
 public class ModoFragment extends Fragment {
     private FirebaseAuth fAuth;
     private FirebaseFirestore fStore;
-    private String  userId;
+    private String userId;
     private Button btn_gest_modo, btn_gest_proposition, btn_gest_signalement;
 
     @Nullable
@@ -35,9 +35,9 @@ public class ModoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_modo, container, false);
-        btn_gest_modo= (Button) rootView.findViewById(R.id.btn_gest_modo);
-        btn_gest_proposition = (Button) rootView.findViewById(R.id.btn_gest_proposition);
-        btn_gest_signalement = (Button) rootView.findViewById(R.id.btn_gest_signalement);
+        btn_gest_modo = rootView.findViewById(R.id.btn_gest_modo);
+        btn_gest_proposition = rootView.findViewById(R.id.btn_gest_proposition);
+        btn_gest_signalement = rootView.findViewById(R.id.btn_gest_signalement);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -45,12 +45,12 @@ public class ModoFragment extends Fragment {
         userId = fAuth.getCurrentUser().getUid();
 
         final DocumentReference documentReference = fStore.collection("users").document(userId);
-        documentReference.addSnapshotListener( getActivity(), new EventListener<DocumentSnapshot>() {
+        documentReference.addSnapshotListener(getActivity(), new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                if (documentSnapshot.getString("rank").equals("modo")){
+                if (documentSnapshot.getString("rank").equals("modo")) {
                     btn_gest_modo.setVisibility(View.GONE);
-                } else{
+                } else {
                     btn_gest_modo.setVisibility(View.VISIBLE);
                 }
 
@@ -61,7 +61,7 @@ public class ModoFragment extends Fragment {
         btn_gest_modo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.w("TAG1","T as bien appuyé sur le bouton mon con");
+                Log.w("TAG1", "T as bien appuyé sur le bouton mon con");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new GestionModoFragment()).commit();
             }
         });
