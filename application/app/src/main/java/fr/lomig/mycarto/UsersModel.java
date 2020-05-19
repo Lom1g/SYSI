@@ -1,4 +1,4 @@
-package fr.lomig.mycarto.Fragment;
+package fr.lomig.mycarto;
 
 public class UsersModel {
 

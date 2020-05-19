@@ -1,8 +1,10 @@
-package fr.lomig.mycarto.Fragment;
+package fr.lomig.mycarto;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,11 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
-import fr.lomig.mycarto.R;
-
 public class UsersAdapter extends FirestoreRecyclerAdapter<UsersModel, UsersAdapter.UsersHolder> {
 
-    UsersAdapter(@NonNull FirestoreRecyclerOptions<UsersModel> options) {
+    public UsersAdapter(@NonNull FirestoreRecyclerOptions<UsersModel> options) {
         super(options);
     }
 

@@ -17,6 +17,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import fr.lomig.mycarto.R;
+import fr.lomig.mycarto.UsersAdapter;
+import fr.lomig.mycarto.UsersModel;
 
 public class AdminFragment extends Fragment {
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
