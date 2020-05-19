@@ -1,9 +1,12 @@
 package fr.lomig.mycarto.Fragment;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +18,9 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import fr.lomig.mycarto.R;
 
@@ -35,8 +41,9 @@ public class AdminFragment extends Fragment {
         setUpRecyclerView();
     }
 
+
     private void setUpRecyclerView() {
-        Query query = collectionReference.orderBy("points", Query.Direction.DESCENDING);
+        Query query = collectionReference.orderBy("fName", Query.Direction.ASCENDING);
         FirestoreRecyclerOptions<UsersModel> options = new FirestoreRecyclerOptions.Builder<UsersModel>()
                 .setQuery(query, UsersModel.class)
                 .build();
