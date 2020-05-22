@@ -24,10 +24,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -36,7 +36,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.HashMap;
 import java.util.Map;
 
-import fr.lomig.mycarto.CustomPopup;
+import fr.lomig.mycarto.PopupAjoutLieu;
+import fr.lomig.mycarto.PopupInfoLieu;
 import fr.lomig.mycarto.R;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
@@ -78,7 +79,8 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(final GoogleMap googleMap) {
 
-        final CustomPopup lieu = new CustomPopup(activity);
+        final PopupAjoutLieu lieu = new PopupAjoutLieu(activity);
+        final PopupInfoLieu infoLieu = new PopupInfoLieu(activity);
         final GoogleMap gMap = googleMap;
 
         db.collection("spots")
@@ -107,6 +109,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                 final EditText title = lieu.findViewById(R.id.entertitle);
                 final EditText desc = lieu.findViewById(R.id.enterdescrip);
                 final EditText cate = lieu.findViewById(R.id.entercat);
+
                 lieu.getYesButton().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -138,6 +141,47 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
+        gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                LatLng latLng=marker.getPosition();
+                double latitude = latLng.latitude;
+                double longitude = latLng.longitude;
+                db.collection("spots")
+                        .whereEqualTo("latitude",latitude)
+                        .whereEqualTo("longitude",longitude)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        infoLieu.setTitle(document.getData().get("title").toString());
+                                        infoLieu.setDescription(document.getData().get("description").toString());
+
+                                        infoLieu.getYesButton().setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                infoLieu.dismiss();
+                                            }
+                                        });
+
+                                        infoLieu.getNoButton().setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                infoLieu.dismiss();
+                                            }
+                                        });
+                                        infoLieu.build();
+                                    }
+                                } else {
+                                    Log.w(TAG, "Error getting documents.", task.getException());
+                                }
+                            }
+                        });
+                return false;
+            }
+        });
 
         locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {

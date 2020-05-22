@@ -25,4 +25,6 @@
     <string name="forgot_password">Mot de passe oublié?</string>
     <string name="yes">OUI</string>
     <string name="no">NON</string>
+    <string name="cancel">annuler</string>
+    <string name="confirm">confirmer</string>
 </resources>
