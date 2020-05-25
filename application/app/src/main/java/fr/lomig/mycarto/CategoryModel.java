@@ -1,5 +1,8 @@
 package fr.lomig.mycarto;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class CategoryModel {
 
     private String category;

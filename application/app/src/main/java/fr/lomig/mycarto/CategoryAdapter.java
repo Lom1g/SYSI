@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +23,7 @@ import java.util.List;
 public class CategoryAdapter extends FirestoreRecyclerAdapter<CategoryModel, CategoryAdapter.CategoryHolder> {
 
     private OnItemClickListener listener;
-    private ArrayList<String> categories;
+    private ArrayList<String> categories = new ArrayList<>();
 
     public CategoryAdapter(@NonNull FirestoreRecyclerOptions<CategoryModel> options) {
         super(options);
@@ -31,11 +32,22 @@ public class CategoryAdapter extends FirestoreRecyclerAdapter<CategoryModel, Cat
     @Override
     protected void onBindViewHolder(@NonNull CategoryHolder categoryHolder, int i, @NonNull CategoryModel categoryModel) {
         //if(!categories.contains(categoryModel.getCategory())){
-            categoryHolder.categorie.setText(categoryModel.getCategory());
+        categoryHolder.categorie.setText(categoryModel.getCategory());
 
-            int color = Color.argb(255, 255, 255, 153);
-            categoryHolder.categorie.setBackgroundColor(color);
-            //categories.add(categoryModel.getCategory());
+        if (!categories.contains(categoryModel.getCategory())) {
+            categories.add(categoryModel.getCategory());
+        }
+        else {
+            RecyclerView.LayoutParams param = (RecyclerView.LayoutParams) categoryHolder.itemView.getLayoutParams();
+            param.height = 0;
+            param.width = LinearLayout.LayoutParams.MATCH_PARENT;
+            categoryHolder.itemView.setVisibility(View.INVISIBLE);
+        }
+
+        int color = Color.argb(255, 255, 255, 153);
+        categoryHolder.categorie.setBackgroundColor(color);
+        //categories.add(categoryModel.getCategory());
+
         //}
 
     }
@@ -59,8 +71,8 @@ public class CategoryAdapter extends FirestoreRecyclerAdapter<CategoryModel, Cat
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION && listener != null){
-                        listener.onItemClick(getSnapshots().getSnapshot(position),position);
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                        listener.onItemClick(getSnapshots().getSnapshot(position), position);
                     }
                 }
             });
@@ -71,7 +83,7 @@ public class CategoryAdapter extends FirestoreRecyclerAdapter<CategoryModel, Cat
         void onItemClick(DocumentSnapshot documentSnapshot, int position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener){
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 }

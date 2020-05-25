@@ -22,9 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.Objects;
-import java.util.Random;
 
-import fr.lomig.mycarto.Fragment.SpotFragment;
 import fr.lomig.mycarto.CategoryAdapter;
 import fr.lomig.mycarto.CategoryModel;
 import fr.lomig.mycarto.R;
@@ -53,16 +51,16 @@ public class SearchFragment extends Fragment {
 
 
     private void setUpRecyclerView() {
-        Query query = collectionReference.orderBy("category", Query.Direction.ASCENDING);
+        Query query = collectionReference.orderBy("category");
         FirestoreRecyclerOptions<CategoryModel> options = new FirestoreRecyclerOptions.Builder<CategoryModel>()
                 .setQuery(query, CategoryModel.class)
                 .build();
         categoryAdapter = new CategoryAdapter(options);
 
-        Toast.makeText(getContext(),"id :" + options, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getContext(),"id :" + options, Toast.LENGTH_LONG).show();
 
-        RecyclerView recyclerView =  Objects.requireNonNull(getView()).findViewById(R.id.list_categorie);
-        recyclerView .setHasFixedSize(true);
+        RecyclerView recyclerView = Objects.requireNonNull(getView()).findViewById(R.id.list_categorie);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(categoryAdapter);
 
@@ -71,7 +69,7 @@ public class SearchFragment extends Fragment {
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 // ici on implemente les trucs a faire apres un click sur une catégorie de la liste
                 String cat = Objects.requireNonNull(documentSnapshot.get("category")).toString();
-                Toast.makeText(getContext(),"id :" + cat, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "id :" + cat, Toast.LENGTH_SHORT).show();
                 listener.onInputASent(cat);
                 assert getFragmentManager() != null;
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new SpotFragment()).commit();
@@ -102,6 +100,7 @@ public class SearchFragment extends Fragment {
                     + " must implement SearchFragmentListener");
         }
     }
+
     @Override
     public void onDetach() {
         super.onDetach();

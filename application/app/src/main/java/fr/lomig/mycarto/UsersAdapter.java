@@ -1,5 +1,6 @@
 package fr.lomig.mycarto;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 public class UsersAdapter extends FirestoreRecyclerAdapter<UsersModel, UsersAdapter.UsersHolder> {
 
     private OnItemClickListener listener;
+    private static final long POINT_MODO = 500;
 
     public UsersAdapter(@NonNull FirestoreRecyclerOptions<UsersModel> options) {
         super(options);
@@ -28,6 +30,9 @@ public class UsersAdapter extends FirestoreRecyclerAdapter<UsersModel, UsersAdap
         usersHolder.email.setText(usersModel.getEmail());
         usersHolder.rank.setText(usersModel.getRank());
         usersHolder.points.setText(String.valueOf(usersModel.getPoints()));
+        if (usersModel.getPoints() >= POINT_MODO && usersModel.getRank().equals("user")) {
+            usersHolder.fName.setBackgroundColor(Color.parseColor("#29D03B"));
+        }
     }
 
     @NonNull
@@ -54,8 +59,8 @@ public class UsersAdapter extends FirestoreRecyclerAdapter<UsersModel, UsersAdap
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION && listener != null){
-                        listener.onItemClick(getSnapshots().getSnapshot(position),position);
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                        listener.onItemClick(getSnapshots().getSnapshot(position), position);
                     }
                 }
             });
@@ -66,7 +71,8 @@ public class UsersAdapter extends FirestoreRecyclerAdapter<UsersModel, UsersAdap
         void onItemClick(DocumentSnapshot documentSnapshot, int position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener){
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
+
 }
