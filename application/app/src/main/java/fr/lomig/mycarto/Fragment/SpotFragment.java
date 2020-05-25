@@ -1,12 +1,10 @@
 package fr.lomig.mycarto.Fragment;
 
 import android.os.Bundle;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,22 +18,22 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-import java.util.Objects;
-import java.util.Random;
-
-import fr.lomig.mycarto.Fragment.SpotFragment;
-import fr.lomig.mycarto.CategoryAdapter;
-import fr.lomig.mycarto.CategoryModel;
 import fr.lomig.mycarto.R;
+import fr.lomig.mycarto.SpotAdapter;
+import fr.lomig.mycarto.SpotModel;
 
-public class SearchFragment extends Fragment {
+public class SpotFragment extends Fragment {
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private CollectionReference collectionReference = firebaseFirestore.collection("spots");
-    private CategoryAdapter categoryAdapter;
+    private SpotAdapter spotAdapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Bundle bundle = getArguments();
+        //Toast.makeText(getContext(),"id :" + bundle, Toast.LENGTH_SHORT).show();
+        //String categorie = bundle.getString("c");
+
         return inflater.inflate(R.layout.fragment_search, container, false);
     }
 
@@ -48,31 +46,22 @@ public class SearchFragment extends Fragment {
 
     private void setUpRecyclerView() {
         Query query = collectionReference.orderBy("category", Query.Direction.ASCENDING);
-        FirestoreRecyclerOptions<CategoryModel> options = new FirestoreRecyclerOptions.Builder<CategoryModel>()
-                .setQuery(query, CategoryModel.class)
+        FirestoreRecyclerOptions<SpotModel> options = new FirestoreRecyclerOptions.Builder<SpotModel>()
+                .setQuery(query, SpotModel.class)
                 .build();
-        categoryAdapter = new CategoryAdapter(options);
+        spotAdapter = new SpotAdapter(options);
 
         RecyclerView recyclerView =  getView().findViewById(R.id.list_categorie);
         recyclerView .setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(categoryAdapter);
+        recyclerView.setAdapter(spotAdapter);
 
-        categoryAdapter.setOnItemClickListener(new CategoryAdapter.OnItemClickListener() {
+        spotAdapter.setOnItemClickListener(new SpotAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                // ici on implemente les trucs a faire apres un click sur une catégorie de la liste
-                String cat = Objects.requireNonNull(documentSnapshot.get("category")).toString();
-                //Toast.makeText(getContext(),"id :" + cat, Toast.LENGTH_LONG).show();
-                //on passe en paramètre du SpotFragment le nom de la catégorie
-                Bundle bundle = new Bundle();
-                bundle.putString("c", cat);
-
-                SpotFragment spotFragment = new SpotFragment();
-                spotFragment.setArguments(bundle);
-                //Toast.makeText(getContext(),"id :" + spotFragment.getArguments(), Toast.LENGTH_LONG).show();
-                assert getFragmentManager() != null;
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new SpotFragment()).commit();
+                // ici on implemente les trucs a faire apres un click sur un spot de la liste
+                String id = documentSnapshot.getId();
+                Toast.makeText(getContext(),"id :" + id, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -81,12 +70,12 @@ public class SearchFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        categoryAdapter.startListening();
+        spotAdapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        categoryAdapter.stopListening();
+        spotAdapter.stopListening();
     }
 }
