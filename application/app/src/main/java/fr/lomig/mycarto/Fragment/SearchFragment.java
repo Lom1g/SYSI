@@ -1,5 +1,6 @@
 package fr.lomig.mycarto.Fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
@@ -32,6 +33,11 @@ public class SearchFragment extends Fragment {
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private CollectionReference collectionReference = firebaseFirestore.collection("spots");
     private CategoryAdapter categoryAdapter;
+    private SearchFragmentListener listener;
+
+    public interface SearchFragmentListener {
+        void onInputASent(CharSequence category);
+    }
 
     @Nullable
     @Override
@@ -53,7 +59,9 @@ public class SearchFragment extends Fragment {
                 .build();
         categoryAdapter = new CategoryAdapter(options);
 
-        RecyclerView recyclerView =  getView().findViewById(R.id.list_categorie);
+        Toast.makeText(getContext(),"id :" + options, Toast.LENGTH_LONG).show();
+
+        RecyclerView recyclerView =  Objects.requireNonNull(getView()).findViewById(R.id.list_categorie);
         recyclerView .setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(categoryAdapter);
@@ -63,14 +71,8 @@ public class SearchFragment extends Fragment {
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 // ici on implemente les trucs a faire apres un click sur une catégorie de la liste
                 String cat = Objects.requireNonNull(documentSnapshot.get("category")).toString();
-                //Toast.makeText(getContext(),"id :" + cat, Toast.LENGTH_LONG).show();
-                //on passe en paramètre du SpotFragment le nom de la catégorie
-                Bundle bundle = new Bundle();
-                bundle.putString("c", cat);
-
-                SpotFragment spotFragment = new SpotFragment();
-                spotFragment.setArguments(bundle);
-                //Toast.makeText(getContext(),"id :" + spotFragment.getArguments(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),"id :" + cat, Toast.LENGTH_SHORT).show();
+                listener.onInputASent(cat);
                 assert getFragmentManager() != null;
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new SpotFragment()).commit();
             }
@@ -88,5 +90,21 @@ public class SearchFragment extends Fragment {
     public void onStop() {
         super.onStop();
         categoryAdapter.stopListening();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof SearchFragmentListener) {
+            listener = (SearchFragmentListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement SearchFragmentListener");
+        }
+    }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
     }
 }

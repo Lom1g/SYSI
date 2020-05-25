@@ -15,12 +15,14 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class CategoryAdapter extends FirestoreRecyclerAdapter<CategoryModel, CategoryAdapter.CategoryHolder> {
 
     private OnItemClickListener listener;
+    private ArrayList<String> categories;
 
     public CategoryAdapter(@NonNull FirestoreRecyclerOptions<CategoryModel> options) {
         super(options);
@@ -28,10 +30,14 @@ public class CategoryAdapter extends FirestoreRecyclerAdapter<CategoryModel, Cat
 
     @Override
     protected void onBindViewHolder(@NonNull CategoryHolder categoryHolder, int i, @NonNull CategoryModel categoryModel) {
-        categoryHolder.categorie.setText(categoryModel.getCategory());
+        //if(!categories.contains(categoryModel.getCategory())){
+            categoryHolder.categorie.setText(categoryModel.getCategory());
 
-        int color = Color.argb(255, 255, 255, 153);
-        categoryHolder.categorie.setBackgroundColor(color);
+            int color = Color.argb(255, 255, 255, 153);
+            categoryHolder.categorie.setBackgroundColor(color);
+            //categories.add(categoryModel.getCategory());
+        //}
+
     }
 
     @NonNull

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +17,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.util.Objects;
+
 import fr.lomig.mycarto.R;
 import fr.lomig.mycarto.SpotAdapter;
 import fr.lomig.mycarto.SpotModel;
@@ -26,14 +27,15 @@ public class SpotFragment extends Fragment {
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private CollectionReference collectionReference = firebaseFirestore.collection("spots");
     private SpotAdapter spotAdapter;
+    private static CharSequence categoryIn;
+
+    public void setCategoryIn(CharSequence category){
+        categoryIn=category;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Bundle bundle = getArguments();
-        //Toast.makeText(getContext(),"id :" + bundle, Toast.LENGTH_SHORT).show();
-        //String categorie = bundle.getString("c");
-
         return inflater.inflate(R.layout.fragment_search, container, false);
     }
 
@@ -45,13 +47,13 @@ public class SpotFragment extends Fragment {
 
 
     private void setUpRecyclerView() {
-        Query query = collectionReference.orderBy("category", Query.Direction.ASCENDING);
+        Query query = collectionReference.whereEqualTo("category",categoryIn);
         FirestoreRecyclerOptions<SpotModel> options = new FirestoreRecyclerOptions.Builder<SpotModel>()
                 .setQuery(query, SpotModel.class)
                 .build();
         spotAdapter = new SpotAdapter(options);
 
-        RecyclerView recyclerView =  getView().findViewById(R.id.list_categorie);
+        RecyclerView recyclerView =  Objects.requireNonNull(getView()).findViewById(R.id.list_categorie);
         recyclerView .setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(spotAdapter);
@@ -60,8 +62,6 @@ public class SpotFragment extends Fragment {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 // ici on implemente les trucs a faire apres un click sur un spot de la liste
-                String id = documentSnapshot.getId();
-                Toast.makeText(getContext(),"id :" + id, Toast.LENGTH_SHORT).show();
             }
         });
 

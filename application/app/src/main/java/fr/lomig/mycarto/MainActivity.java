@@ -44,8 +44,9 @@ import fr.lomig.mycarto.Fragment.GmapFragment;
 import fr.lomig.mycarto.Fragment.ModoFragment;
 import fr.lomig.mycarto.Fragment.NotifFragment;
 import fr.lomig.mycarto.Fragment.SearchFragment;
+import fr.lomig.mycarto.Fragment.SpotFragment;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SearchFragment.SearchFragmentListener {
 
     private LocationManager locationManager;
     private LocationListener locationListener;
@@ -102,6 +103,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SearchFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_search);
         }
+
+    }
+
+    @Override
+    public void onInputASent(CharSequence category) {
+        SpotFragment spotFragment= new SpotFragment();
+        spotFragment.setCategoryIn(category);
     }
 
     private void askLocationPermission() {
