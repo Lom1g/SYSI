@@ -29,4 +29,8 @@
     <string name="gestion_proposition">Gestion proposition</string>
     <string name="gestion_signalement">Gestion signalement</string>
     <string name="gestion_des_moderateurs">Gestion des moderateurs</string>
+    <string name="yes">OUI</string>
+    <string name="no">NON</string>
+    <string name="cancel">annuler</string>
+    <string name="confirm">confirmer</string>
 </resources>

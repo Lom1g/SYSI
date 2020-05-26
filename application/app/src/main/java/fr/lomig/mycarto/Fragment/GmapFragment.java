@@ -1,9 +1,7 @@
 package fr.lomig.mycarto.Fragment;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -12,24 +10,37 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
-import android.renderscript.Script;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.EditText;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
+import fr.lomig.mycarto.PopupAjoutLieu;
+import fr.lomig.mycarto.PopupInfoLieu;
 import fr.lomig.mycarto.R;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 
 /**
@@ -42,6 +53,8 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
     private LocationManager locationManager;
     private LocationListener locationListener;
     private LatLng userLatLong;
+    private FragmentActivity activity;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
     public GmapFragment() {
@@ -51,8 +64,8 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_gmap, container, false);
+        this.activity=this.getActivity();
         return view;
     }
 
@@ -64,29 +77,111 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
 
+        final PopupAjoutLieu lieu = new PopupAjoutLieu(activity);
+        final PopupInfoLieu infoLieu = new PopupInfoLieu(activity);
         final GoogleMap gMap = googleMap;
+
+        db.collection("spots")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                LatLng latLngMarker = new LatLng((double)document.getData().get("latitude"), (double)document.getData().get("longitude"));
+                                MarkerOptions markerOptions = new MarkerOptions();
+                                markerOptions.position(latLngMarker);
+                                markerOptions.title((String) document.getData().get("title"));
+                                gMap.addMarker(markerOptions);
+                            }
+                        } else {
+                            Log.w(TAG,"Error getting documents.", task.getException());
+                        }
+                    }
+                });
+
 
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
-            public void onMapClick(LatLng latLng) {
-                //Creating marker
-                MarkerOptions markerOptions = new MarkerOptions();
-                //Set Marker Position
-                markerOptions.position(latLng);
-                //Set Latitude and Longitude on Marker
-                markerOptions.title(latLng.latitude + ":" + latLng.longitude);
-                //Clear the previously Click position
-                map.clear();
-                //Zoom the Marker
-                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
-                //Add Marker on map
-                gMap.addMarker(markerOptions);
-                //remove markers;
+            public void onMapClick(final LatLng latLng) {
+                final EditText title = lieu.findViewById(R.id.entertitle);
+                final EditText desc = lieu.findViewById(R.id.enterdescrip);
+                final EditText cate = lieu.findViewById(R.id.entercat);
+
+                lieu.getYesButton().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Map<String, Object> spot = new HashMap<>();
+                        spot.put("title",title.getText().toString());
+                        spot.put("latitude",latLng.latitude);
+                        spot.put("longitude",latLng.longitude);
+                        spot.put("description",desc.getText().toString());
+                        spot.put("category", cate.getText().toString());
+                        db.collection("spots").add(spot);
+
+                        MarkerOptions markerOptions = new MarkerOptions();
+                        markerOptions.position(latLng);
+                        markerOptions.title(title.getText().toString());
+                        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
+                        gMap.addMarker(markerOptions);
+                        lieu.dismiss();
+                    }
+                });
+
+                lieu.getNoButton().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        lieu.dismiss();
+                    }
+                });
+
+                lieu.build();
             }
         });
 
+        gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                LatLng latLng=marker.getPosition();
+                double latitude = latLng.latitude;
+                double longitude = latLng.longitude;
+                db.collection("spots")
+                        .whereEqualTo("latitude",latitude)
+                        .whereEqualTo("longitude",longitude)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        infoLieu.setTitle(document.getData().get("title").toString());
+                                        infoLieu.setDescription(document.getData().get("description").toString());
+
+                                        infoLieu.getYesButton().setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                infoLieu.dismiss();
+                                            }
+                                        });
+
+                                        infoLieu.getNoButton().setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                infoLieu.dismiss();
+                                            }
+                                        });
+                                        infoLieu.build();
+                                    }
+                                } else {
+                                    Log.w(TAG, "Error getting documents.", task.getException());
+                                }
+                            }
+                        });
+                return false;
+            }
+        });
 
         locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
@@ -125,7 +220,6 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
         }
 
         map.setMyLocationEnabled(true);
-        map.addMarker(new MarkerOptions().position(new LatLng(48.3837, -4.5203)).title("Home"));
         map.setMapType(MAP_TYPE_SATELLITE);
 
 

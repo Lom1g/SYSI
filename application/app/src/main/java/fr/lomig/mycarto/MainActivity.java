@@ -9,7 +9,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ClipData;
@@ -23,6 +22,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import android.view.View;
 import android.widget.TextView;
 
@@ -39,7 +39,6 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 import com.google.firebase.auth.FirebaseAuth;
-
 import fr.lomig.mycarto.Fragment.GmapFragment;
 import fr.lomig.mycarto.Fragment.ModoFragment;
 import fr.lomig.mycarto.Fragment.NotifFragment;
@@ -165,7 +164,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_gmap:
                 if (ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new GmapFragment()).commit();
-                } else {
+                }
+                else{
                     askLocationPermission();
                 }
                 break;
@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getApplicationContext(), Login.class));
+                startActivity(new Intent(getApplicationContext(),Login.class));
                 finish();
 
         }
