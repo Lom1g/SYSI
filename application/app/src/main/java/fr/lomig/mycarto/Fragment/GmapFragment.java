@@ -171,7 +171,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
-                                    for (final QueryDocumentSnapshot document : task.getResult()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
                                         infoLieu.setTitle(document.getData().get("title").toString());
                                         infoLieu.setDescription(document.getData().get("description").toString());
                                         infoLieu.setNoButtonText("Signaler");
@@ -195,7 +195,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                                         infoLieu.getNoButton().setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                
+
                                                 infoLieu.dismiss();
                                             }
                                         });
