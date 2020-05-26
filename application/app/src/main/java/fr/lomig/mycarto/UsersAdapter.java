@@ -31,7 +31,7 @@ public class UsersAdapter extends FirestoreRecyclerAdapter<UsersModel, UsersAdap
         usersHolder.rank.setText(usersModel.getRank());
         usersHolder.points.setText(String.valueOf(usersModel.getPoints()));
         if (usersModel.getPoints() >= POINT_MODO && usersModel.getRank().equals("user")) {
-            usersHolder.fName.setBackgroundColor(Color.parseColor("#29D03B"));
+            usersHolder.itemView.setBackgroundColor(Color.parseColor("#44B9AA"));
         }
     }
 

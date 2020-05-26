@@ -58,7 +58,6 @@ public class ModoFragment extends Fragment {
         btn_gest_modo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.w("TAG1", "T as bien appuyé sur le bouton mon con");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new GestionModoFragment()).commit();
             }
         });

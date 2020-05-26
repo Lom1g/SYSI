@@ -31,25 +31,20 @@ public class CategoryAdapter extends FirestoreRecyclerAdapter<CategoryModel, Cat
 
     @Override
     protected void onBindViewHolder(@NonNull CategoryHolder categoryHolder, int i, @NonNull CategoryModel categoryModel) {
-        //if(!categories.contains(categoryModel.getCategory())){
         categoryHolder.categorie.setText(categoryModel.getCategory());
 
         if (!categories.contains(categoryModel.getCategory())) {
             categories.add(categoryModel.getCategory());
-        }
-        else {
+        } else {
             RecyclerView.LayoutParams param = (RecyclerView.LayoutParams) categoryHolder.itemView.getLayoutParams();
             param.height = 0;
-            param.bottomMargin=0;
+            param.bottomMargin = 0;
             param.width = LinearLayout.LayoutParams.MATCH_PARENT;
             categoryHolder.itemView.setVisibility(View.INVISIBLE);
         }
 
         int color = Color.argb(255, 255, 255, 153);
         categoryHolder.categorie.setBackgroundColor(color);
-        //categories.add(categoryModel.getCategory());
-
-        //}
 
     }
 

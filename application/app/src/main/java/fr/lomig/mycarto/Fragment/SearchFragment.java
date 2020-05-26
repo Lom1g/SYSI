@@ -57,8 +57,6 @@ public class SearchFragment extends Fragment {
                 .build();
         categoryAdapter = new CategoryAdapter(options);
 
-        //Toast.makeText(getContext(),"id :" + options, Toast.LENGTH_LONG).show();
-
         RecyclerView recyclerView = Objects.requireNonNull(getView()).findViewById(R.id.list_categorie);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -69,7 +67,6 @@ public class SearchFragment extends Fragment {
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 // ici on implemente les trucs a faire apres un click sur une catégorie de la liste
                 String cat = Objects.requireNonNull(documentSnapshot.get("category")).toString();
-                Toast.makeText(getContext(), "id :" + cat, Toast.LENGTH_SHORT).show();
                 listener.onInputASent(cat);
                 assert getFragmentManager() != null;
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new SpotFragment()).commit();

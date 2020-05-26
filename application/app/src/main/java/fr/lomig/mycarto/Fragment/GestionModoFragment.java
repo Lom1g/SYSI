@@ -83,7 +83,6 @@ public class GestionModoFragment extends Fragment {
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 // ici on implemente les trucs a faire apres un click sur un user de la liste
                 String id = documentSnapshot.getId();
-                Toast.makeText(getContext(), "id :" + id, Toast.LENGTH_SHORT).show();
             }
         });
 
