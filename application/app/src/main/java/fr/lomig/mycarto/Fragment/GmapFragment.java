@@ -111,6 +111,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                 final EditText title = lieu.findViewById(R.id.entertitle);
                 final EditText desc = lieu.findViewById(R.id.enterdescrip);
                 final EditText cate = lieu.findViewById(R.id.entercat);
+                final EditText note = infoLieu.findViewById(R.id.note);
 
                 lieu.getYesButton().setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -123,7 +124,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                         spot.put("category", cate.getText().toString());
                         spot.put("signaled",false);
                         spot.put("proposed",true);
-                        spot.put("rating", 0);
+                        spot.put("rating", note.getText().toString());
 
                         if (title.getText().toString().matches("") || desc.getText().toString().matches("") || cate.getText().toString().matches("")) {
                             if (cate.getText().toString().matches("")){
@@ -178,6 +179,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                                     for (final QueryDocumentSnapshot document : task.getResult()) {
                                         infoLieu.setTitle(document.getData().get("title").toString());
                                         infoLieu.setDescription(document.getData().get("description").toString());
+                                        infoLieu.setNotepop(document.getData().get("rating").toString());
                                         infoLieu.setNoButtonText("Signaler");
                                         infoLieu.setNeutralButtonText("Retour");
                                         infoLieu.setYesButtonText("Noter");
@@ -185,7 +187,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                                         infoLieu.getYesButton().setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                infoLieu.setNote((Integer) document.getData().get("rating"));
+                                                infoLieu.setNote(Integer.parseInt(document.getData().get("rating").toString()));
                                                 Integer note = infoLieu.getNote();
                                                 db.collection("spots").document(document.getId()).update("rating",note);
                                                 infoLieu.dismiss();
