@@ -9,7 +9,7 @@ public class CustomPopup extends Dialog {
 
     //fields
     private Button yesButton,neutralButton, noButton;
-    private String title,description;
+    private String title,description,yesText,neutralText,noText;
     private TextView titleView, descriptionView;
 
     // constructor
@@ -20,6 +20,9 @@ public class CustomPopup extends Dialog {
         this.yesButton = findViewById(R.id.yesButtonInfo);
         this.neutralButton = findViewById(R.id.neutralButtonInfo);
         this.noButton = findViewById(R.id.noButtoninfo);
+        this.yesText = "Yes";
+        this.neutralText = "Neutral";
+        this.noText = "No";
         this.title = "default title";
         this.description = "default description";
         this.titleView=findViewById(R.id.titleInfo);
@@ -35,6 +38,12 @@ public class CustomPopup extends Dialog {
     }
 
     public Button getNeutralButton() { return neutralButton;}
+
+    public void setYesButtonText(String yesText){this.yesButton.setText(yesText);}
+
+    public void setNeutralButtonText(String neutralText){this.neutralButton.setText(neutralText);}
+
+    public void setNoButtonText(String noText){this.noButton.setText(noText);}
 
     public void setTitle(String title){ this.title=title; }
 

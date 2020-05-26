@@ -119,16 +119,17 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                         spot.put("longitude",latLng.longitude);
                         spot.put("description",desc.getText().toString());
                         spot.put("category", cate.getText().toString());
+                        spot.put("signal",false);
 
                         if (title.getText().toString().matches("") || desc.getText().toString().matches("") || cate.getText().toString().matches("")) {
-                            if (title.getText().toString().matches("")){
-                                title.requestFocus();
+                            if (cate.getText().toString().matches("")){
+                                cate.requestFocus();
                             }
                             if (desc.getText().toString().matches("")){
                                 desc.requestFocus();
                             }
-                            if (cate.getText().toString().matches("")){
-                                cate.requestFocus();
+                            if (title.getText().toString().matches("")){
+                                title.requestFocus();
                             }
                         }
 
@@ -170,9 +171,12 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                    for (final QueryDocumentSnapshot document : task.getResult()) {
                                         infoLieu.setTitle(document.getData().get("title").toString());
-                                        infoLieu.setDescription(document.getData().get("description").toString()+" ");
+                                        infoLieu.setDescription(document.getData().get("description").toString());
+                                        infoLieu.setNoButtonText("Signaler");
+                                        infoLieu.setNeutralButtonText("Retour");
+                                        infoLieu.setYesButtonText("Noter");
 
                                         infoLieu.getYesButton().setOnClickListener(new View.OnClickListener() {
                                             @Override
@@ -191,6 +195,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                                         infoLieu.getNoButton().setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
+                                                
                                                 infoLieu.dismiss();
                                             }
                                         });
