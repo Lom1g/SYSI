@@ -68,7 +68,7 @@ public class SpotFragment extends Fragment {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 // ici on implemente les trucs a faire apres un click sur un spot de la liste
-                listener.onInputSpotFragmentSent(documentSnapshot.get("latitude").toString(),documentSnapshot.get("latitude").toString());
+                listener.onInputSpotFragmentSent(documentSnapshot.get("latitude").toString(),documentSnapshot.get("longitude").toString());
             }
         });
 
