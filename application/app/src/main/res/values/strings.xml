@@ -33,4 +33,5 @@
     <string name="no">NON</string>
     <string name="cancel">annuler</string>
     <string name="confirm">confirmer</string>
+    <string name="delete">supprimer</string>
 </resources>

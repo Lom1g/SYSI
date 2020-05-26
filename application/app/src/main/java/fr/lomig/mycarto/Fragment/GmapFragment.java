@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,7 +38,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fr.lomig.mycarto.PopupAjoutLieu;
-import fr.lomig.mycarto.PopupInfoLieu;
+import fr.lomig.mycarto.CustomPopup;
 import fr.lomig.mycarto.R;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
@@ -80,10 +81,11 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(final GoogleMap googleMap) {
 
         final PopupAjoutLieu lieu = new PopupAjoutLieu(activity);
-        final PopupInfoLieu infoLieu = new PopupInfoLieu(activity);
+        final CustomPopup infoLieu = new CustomPopup(activity);
         final GoogleMap gMap = googleMap;
 
         db.collection("spots")
+                .whereEqualTo("proposed",false)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -119,15 +121,31 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                         spot.put("longitude",latLng.longitude);
                         spot.put("description",desc.getText().toString());
                         spot.put("category", cate.getText().toString());
-                        spot.put("rating", 0);
-                        db.collection("spots").add(spot);
+                        spot.put("signaled",false);
+                        spot.put("proposed",true);
 
-                        MarkerOptions markerOptions = new MarkerOptions();
-                        markerOptions.position(latLng);
-                        markerOptions.title(title.getText().toString());
-                        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
-                        gMap.addMarker(markerOptions);
-                        lieu.dismiss();
+                        if (title.getText().toString().matches("") || desc.getText().toString().matches("") || cate.getText().toString().matches("")) {
+                            if (cate.getText().toString().matches("")){
+                                cate.requestFocus();
+                            }
+                            if (desc.getText().toString().matches("")){
+                                desc.requestFocus();
+                            }
+                            if (title.getText().toString().matches("")){
+                                title.requestFocus();
+                            }
+                        }
+
+                        else {
+                            db.collection("spots").add(spot);
+                            MarkerOptions markerOptions = new MarkerOptions();
+                            markerOptions.position(latLng);
+                            markerOptions.title(title.getText().toString());
+                            gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
+                            gMap.addMarker(markerOptions);
+                            lieu.dismiss();
+
+                        }
                     }
                 });
 
@@ -159,12 +177,20 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                                     for (final QueryDocumentSnapshot document : task.getResult()) {
                                         infoLieu.setTitle(document.getData().get("title").toString());
                                         infoLieu.setDescription(document.getData().get("description").toString());
+                                        infoLieu.setNoButtonText("Signaler");
+                                        infoLieu.setNeutralButtonText("Retour");
+                                        infoLieu.setYesButtonText("Noter");
 
                                         infoLieu.getYesButton().setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                infoLieu.setNote((Integer) document.getData().get("rating"));
-                                                Integer note = infoLieu.getNote();
+                                                infoLieu.dismiss();
+                                            }
+                                        });
+
+                                        infoLieu.getNeutralButton().setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
                                                 infoLieu.dismiss();
                                             }
                                         });
@@ -172,6 +198,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                                         infoLieu.getNoButton().setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
+                                                db.collection("spots").document(document.getId()).update("signaled",true);
                                                 infoLieu.dismiss();
                                             }
                                         });
