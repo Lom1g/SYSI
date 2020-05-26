@@ -119,6 +119,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                         spot.put("longitude",latLng.longitude);
                         spot.put("description",desc.getText().toString());
                         spot.put("category", cate.getText().toString());
+                        spot.put("rating", 0);
                         db.collection("spots").add(spot);
 
                         MarkerOptions markerOptions = new MarkerOptions();
@@ -155,13 +156,15 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                    for (final QueryDocumentSnapshot document : task.getResult()) {
                                         infoLieu.setTitle(document.getData().get("title").toString());
                                         infoLieu.setDescription(document.getData().get("description").toString());
 
                                         infoLieu.getYesButton().setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
+                                                infoLieu.setNote((Integer) document.getData().get("rating"));
+                                                Integer note = infoLieu.getNote();
                                                 infoLieu.dismiss();
                                             }
                                         });

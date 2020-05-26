@@ -12,6 +12,7 @@ public class PopupInfoLieu extends Dialog {
     //fields
     private Button yesButton, noButton;
     private String title,description;
+    private Integer note;
     private TextView titleView, descriptionView;
 
     // constructor
@@ -23,6 +24,7 @@ public class PopupInfoLieu extends Dialog {
         this.noButton = findViewById(R.id.noButtonInfo);
         this.title = "default title";
         this.description = "default description";
+        this.note = 0;
         this.titleView=findViewById(R.id.titleInfo);
         this.descriptionView=findViewById(R.id.descInfo);
     }
@@ -38,6 +40,10 @@ public class PopupInfoLieu extends Dialog {
     public void setTitle(String title){ this.title=title; }
 
     public void setDescription(String description){ this.description=description; }
+
+    public void setNote(int note){this.note = note + 1;}
+
+    public int getNote(){return note;}
 
     public void build()
     {
