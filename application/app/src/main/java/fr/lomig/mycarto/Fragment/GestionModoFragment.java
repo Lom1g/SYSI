@@ -95,6 +95,7 @@ public class GestionModoFragment extends Fragment {
                     public void onClick(View v) {
                         if (!usersAdapter.getItem(position).getRank().equals("modo")) {
                             firebaseFirestore.collection("users").document(documentSnapshot.getId()).update("rank", "modo");
+                            popup.dismiss();
                         }
                     }
                 });
@@ -103,6 +104,7 @@ public class GestionModoFragment extends Fragment {
                     public void onClick(View v) {
                         if (!usersAdapter.getItem(position).getRank().equals("user")) {
                             firebaseFirestore.collection("users").document(documentSnapshot.getId()).update("rank", "user");
+                            popup.dismiss();
                         }
                     }
                 });
