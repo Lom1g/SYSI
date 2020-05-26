@@ -26,6 +26,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import fr.lomig.mycarto.CustomPopup;
 import fr.lomig.mycarto.MainActivity;
 import fr.lomig.mycarto.R;
 import fr.lomig.mycarto.UsersAdapter;
@@ -82,8 +83,19 @@ public class GestionModoFragment extends Fragment {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 // ici on implemente les trucs a faire apres un click sur un user de la liste
-                String id = documentSnapshot.getId();
-                Toast.makeText(getContext(), "id :" + id, Toast.LENGTH_SHORT).show();
+                CustomPopup popup = new CustomPopup(getActivity());
+                popup.setDescription("Choissisez si vous voulez améliorer ou bien baisser le rang du profil");
+                popup.setTitle("Changer le rang de "+ usersAdapter.getItem(position).getfName());
+                popup.setNeutralButtonText("Annuler");
+                popup.setNoButtonText("Baisser");
+                popup.setYesButtonText("Améliorer");
+                popup.getYesButton().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        
+                    }
+                })
+                popup.build();
             }
         });
 
