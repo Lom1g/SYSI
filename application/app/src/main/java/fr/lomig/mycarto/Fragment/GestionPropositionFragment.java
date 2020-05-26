@@ -62,7 +62,7 @@ public class GestionPropositionFragment extends Fragment {
                 // ici on implemente les trucs a faire apres un click sur un user de la liste
                 final CustomPopup popup = new CustomPopup(getActivity());
                 popup.setDescription("Voulez-vous ajouter le spot sur la carte ?");
-                popup.setTitle("Ajout de" + spotAdapter.getItem(position).getTitle());
+                popup.setTitle("Ajout de " + spotAdapter.getItem(position).getTitle());
                 popup.setNeutralButtonText("Retour");
                 popup.setNoButtonText("Refuser");
                 popup.setYesButtonText("Ajouter");
