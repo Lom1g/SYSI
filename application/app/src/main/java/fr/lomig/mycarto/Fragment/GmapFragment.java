@@ -53,10 +53,15 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
     private LocationManager locationManager;
     private LocationListener locationListener;
     private LatLng userLatLong;
+    private static boolean setzoom;
     private FragmentActivity activity;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-
+    public void setZoom(Double latitude, Double longitude){
+        Log.w("TAG2","J'ai set le zoom:"+setzoom);
+        setzoom = true;
+        Log.w("TAG2","setzoom1:"+setzoom);
+    }
     public GmapFragment() {
         // Required empty public constructor
     }
@@ -215,7 +220,17 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
 
         @SuppressLint("MissingPermission") Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if (lastLocation != null) {
-            userLatLong = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+            Log.w("TAG2","Je suis passé dans le 2eme:"+setzoom);
+            if(setzoom){
+                userLatLong = new LatLng(58.33659315677963,-4.614390917122363);
+                setzoom=false;
+                Log.w("TAG2","Je suis passe AVEC categorie 1"+setzoom);
+            }else{
+
+                Log.w("TAG2","Je suis passe sans categorie 1");
+                userLatLong = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+            }
+            //userLatLong = new LatLng(58.33659315677963,-4.614390917122363);
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLong, 15));
         }
 

@@ -45,7 +45,7 @@ import fr.lomig.mycarto.Fragment.NotifFragment;
 import fr.lomig.mycarto.Fragment.SearchFragment;
 import fr.lomig.mycarto.Fragment.SpotFragment;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SearchFragment.SearchFragmentListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SearchFragment.SearchFragmentListener, SpotFragment.SpotFragmentListener {
 
     private LocationManager locationManager;
     private LocationListener locationListener;
@@ -109,6 +109,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onInputASent(CharSequence category) {
         SpotFragment spotFragment= new SpotFragment();
         spotFragment.setCategoryIn(category);
+    }
+
+    @Override
+    public void onInputSpotFragmentSent(String latitude, String longitude) {
+        double latitudeD = Double.parseDouble(latitude);
+        double longitudeD = Double.parseDouble(longitude);
+
+        //Envoi les données au GmapFragment
+        Bundle bundle = new Bundle();
+        bundle.putDouble("latitude",latitudeD);
+        bundle.putDouble("longitude",longitudeD);
+        GmapFragment gmapFragment = new GmapFragment();
+        gmapFragment.setArguments(bundle);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new GmapFragment()).commit();
+        gmapFragment.setZoom(latitudeD,longitudeD);
     }
 
     private void askLocationPermission() {
