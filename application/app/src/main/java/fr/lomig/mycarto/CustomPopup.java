@@ -5,22 +5,21 @@ import android.app.Dialog;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-
-public class PopupInfoLieu extends Dialog {
+public class CustomPopup extends Dialog {
 
     //fields
-    private Button yesButton, noButton;
+    private Button yesButton,neutralButton, noButton;
     private String title,description;
     private TextView titleView, descriptionView;
 
     // constructor
-    public PopupInfoLieu(Activity activity)
+    public CustomPopup(Activity activity)
     {
         super(activity, R.style.Theme_AppCompat_DayNight_Dialog);
-        setContentView(R.layout.popup_info_lieu);
+        setContentView(R.layout.custom_popup_layout);
         this.yesButton = findViewById(R.id.yesButtonInfo);
-        this.noButton = findViewById(R.id.noButtonInfo);
+        this.neutralButton = findViewById(R.id.neutralButtonInfo);
+        this.noButton = findViewById(R.id.noButtoninfo);
         this.title = "default title";
         this.description = "default description";
         this.titleView=findViewById(R.id.titleInfo);
@@ -34,6 +33,8 @@ public class PopupInfoLieu extends Dialog {
     public Button getYesButton() {
         return yesButton;
     }
+
+    public Button getNeutralButton() { return neutralButton;}
 
     public void setTitle(String title){ this.title=title; }
 

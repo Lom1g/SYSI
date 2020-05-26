@@ -37,7 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fr.lomig.mycarto.PopupAjoutLieu;
-import fr.lomig.mycarto.PopupInfoLieu;
+import fr.lomig.mycarto.CustomPopup;
 import fr.lomig.mycarto.R;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
@@ -80,7 +80,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(final GoogleMap googleMap) {
 
         final PopupAjoutLieu lieu = new PopupAjoutLieu(activity);
-        final PopupInfoLieu infoLieu = new PopupInfoLieu(activity);
+        final CustomPopup infoLieu = new CustomPopup(activity);
         final GoogleMap gMap = googleMap;
 
         db.collection("spots")
@@ -119,14 +119,29 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                         spot.put("longitude",latLng.longitude);
                         spot.put("description",desc.getText().toString());
                         spot.put("category", cate.getText().toString());
-                        db.collection("spots").add(spot);
 
-                        MarkerOptions markerOptions = new MarkerOptions();
-                        markerOptions.position(latLng);
-                        markerOptions.title(title.getText().toString());
-                        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
-                        gMap.addMarker(markerOptions);
-                        lieu.dismiss();
+                        if (title.getText().toString().matches("") || desc.getText().toString().matches("") || cate.getText().toString().matches("")) {
+                            if (title.getText().toString().matches("")){
+                                title.requestFocus();
+                            }
+                            if (desc.getText().toString().matches("")){
+                                desc.requestFocus();
+                            }
+                            if (cate.getText().toString().matches("")){
+                                cate.requestFocus();
+                            }
+                        }
+
+                        else {
+                            db.collection("spots").add(spot);
+                            MarkerOptions markerOptions = new MarkerOptions();
+                            markerOptions.position(latLng);
+                            markerOptions.title(title.getText().toString());
+                            gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
+                            gMap.addMarker(markerOptions);
+                            lieu.dismiss();
+
+                        }
                     }
                 });
 
@@ -157,9 +172,16 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         infoLieu.setTitle(document.getData().get("title").toString());
-                                        infoLieu.setDescription(document.getData().get("description").toString());
+                                        infoLieu.setDescription(document.getData().get("description").toString()+" ");
 
                                         infoLieu.getYesButton().setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                infoLieu.dismiss();
+                                            }
+                                        });
+
+                                        infoLieu.getNeutralButton().setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
                                                 infoLieu.dismiss();
