@@ -40,6 +40,7 @@ public class CategoryAdapter extends FirestoreRecyclerAdapter<CategoryModel, Cat
         else {
             RecyclerView.LayoutParams param = (RecyclerView.LayoutParams) categoryHolder.itemView.getLayoutParams();
             param.height = 0;
+            param.bottomMargin=0;
             param.width = LinearLayout.LayoutParams.MATCH_PARENT;
             categoryHolder.itemView.setVisibility(View.INVISIBLE);
         }
