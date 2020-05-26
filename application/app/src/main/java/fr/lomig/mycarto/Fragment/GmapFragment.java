@@ -123,6 +123,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                         spot.put("category", cate.getText().toString());
                         spot.put("signaled",false);
                         spot.put("proposed",true);
+                        spot.put("rating", 0);
 
                         if (title.getText().toString().matches("") || desc.getText().toString().matches("") || cate.getText().toString().matches("")) {
                             if (cate.getText().toString().matches("")){
@@ -184,6 +185,9 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                                         infoLieu.getYesButton().setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
+                                                infoLieu.setNote((Integer) document.getData().get("rating"));
+                                                Integer note = infoLieu.getNote();
+                                                db.collection("spots").document(document.getId()).update("rating",note);
                                                 infoLieu.dismiss();
                                             }
                                         });
