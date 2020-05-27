@@ -111,7 +111,6 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                 final EditText title = lieu.findViewById(R.id.entertitle);
                 final EditText desc = lieu.findViewById(R.id.enterdescrip);
                 final EditText cate = lieu.findViewById(R.id.entercat);
-                final EditText note = infoLieu.findViewById(R.id.note);
 
                 lieu.getYesButton().setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -124,7 +123,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                         spot.put("category", cate.getText().toString());
                         spot.put("signaled",false);
                         spot.put("proposed",true);
-                        spot.put("rating", note.getText().toString());
+                        spot.put("rating", "0");
 
                         if (title.getText().toString().matches("") || desc.getText().toString().matches("") || cate.getText().toString().matches("")) {
                             if (cate.getText().toString().matches("")){
@@ -182,7 +181,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                                         infoLieu.setNotepop(document.getData().get("rating").toString());
                                         infoLieu.setNoButtonText("Signaler");
                                         infoLieu.setNeutralButtonText("Retour");
-                                        infoLieu.setYesButtonText("Noter");
+                                        infoLieu.setYesButtonText("+1");
 
                                         infoLieu.getYesButton().setOnClickListener(new View.OnClickListener() {
                                             @Override
