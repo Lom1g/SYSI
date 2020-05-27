@@ -35,6 +35,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import fr.lomig.mycarto.PopupAjoutLieu;
 import fr.lomig.mycarto.PopupInfoLieu;
@@ -52,11 +53,15 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
     private static final int MAP_TYPE_SATELLITE = 2;
     private LocationManager locationManager;
     private LocationListener locationListener;
-    private LatLng userLatLong;
+    private static LatLng userLatLong;
+    private static boolean setzoom;
     private FragmentActivity activity;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-
+    public void setZoom(Double latitude, Double longitude){
+        userLatLong = new LatLng(latitude,longitude);
+        setzoom = true;
+    }
     public GmapFragment() {
         // Required empty public constructor
     }
@@ -73,7 +78,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.gmap);
-        mapFragment.getMapAsync(this);
+        Objects.requireNonNull(mapFragment).getMapAsync(this);
     }
 
     @Override
@@ -89,7 +94,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
+                            for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                                 LatLng latLngMarker = new LatLng((double)document.getData().get("latitude"), (double)document.getData().get("longitude"));
                                 MarkerOptions markerOptions = new MarkerOptions();
                                 markerOptions.position(latLngMarker);
@@ -155,9 +160,9 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        infoLieu.setTitle(document.getData().get("title").toString());
-                                        infoLieu.setDescription(document.getData().get("description").toString());
+                                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                                        infoLieu.setTitle(Objects.requireNonNull(document.getData().get("title")).toString());
+                                        infoLieu.setDescription(Objects.requireNonNull(document.getData().get("description")).toString());
 
                                         infoLieu.getYesButton().setOnClickListener(new View.OnClickListener() {
                                             @Override
@@ -183,7 +188,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-        locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) Objects.requireNonNull(getContext()).getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @SuppressLint("MissingPermission")
             @Override
@@ -215,15 +220,16 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
 
         @SuppressLint("MissingPermission") Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if (lastLocation != null) {
-            userLatLong = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+            if(setzoom){
+                setzoom=false;
+            }else{
+                userLatLong = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+            }
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLong, 15));
         }
 
         map.setMyLocationEnabled(true);
         map.setMapType(MAP_TYPE_SATELLITE);
-
-
-
 
     }
 }
