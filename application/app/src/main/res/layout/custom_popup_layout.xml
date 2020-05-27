@@ -56,9 +56,6 @@
             android:text="note"
             android:textSize="20dp"
             />
-
-
-
     </LinearLayout>
 
 
