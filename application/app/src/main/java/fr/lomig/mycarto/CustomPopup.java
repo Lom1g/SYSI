@@ -49,11 +49,11 @@ public class CustomPopup extends Dialog {
 
     public void setNoButtonText(String noText){this.noButton.setText(noText);}
 
-    public void setNotepop(String notetext){this.notetext = notetext;}
-
     public void setTitle(String title){ this.title=title; }
 
     public void setDescription(String description){ this.description=description; }
+
+    public void setNotepop(String notetext){this.notetext = notetext;}
 
     public void setNote(Integer note){this.note = note + 1;}
 

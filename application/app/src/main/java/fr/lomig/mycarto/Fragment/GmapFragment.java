@@ -187,8 +187,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                                             @Override
                                             public void onClick(View v) {
                                                 infoLieu.setNote(Integer.parseInt(document.getData().get("rating").toString()));
-                                                Integer note = infoLieu.getNote();
-                                                db.collection("spots").document(document.getId()).update("rating",note);
+                                                db.collection("spots").document(document.getId()).update("rating",infoLieu.getNote());
                                                 infoLieu.dismiss();
                                             }
                                         });
