@@ -143,13 +143,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
 
                         else {
                             db.collection("spots").add(spot);
-                            MarkerOptions markerOptions = new MarkerOptions();
-                            markerOptions.position(latLng);
-                            markerOptions.title(title.getText().toString());
-                            gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
-                            gMap.addMarker(markerOptions);
                             lieu.dismiss();
-
                         }
                     }
                 });
