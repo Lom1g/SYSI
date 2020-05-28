@@ -9,8 +9,9 @@ public class CustomPopup extends Dialog {
 
     //fields
     private Button yesButton,neutralButton, noButton;
-    private String title,description,yesText,neutralText,noText;
-    private TextView titleView, descriptionView;
+    private String title,description,yesText,neutralText,noText, notetext;
+    private Integer note;
+    private TextView titleView, descriptionView, noteView;
 
     // constructor
     public CustomPopup(Activity activity)
@@ -25,8 +26,11 @@ public class CustomPopup extends Dialog {
         this.noText = "No";
         this.title = "default title";
         this.description = "default description";
+        this.notetext = "note";
+        this.note = 0;
         this.titleView=findViewById(R.id.titleInfo);
         this.descriptionView=findViewById(R.id.descInfo);
+        this.noteView=findViewById(R.id.note);
     }
 
     public Button getNoButton() {
@@ -49,10 +53,19 @@ public class CustomPopup extends Dialog {
 
     public void setDescription(String description){ this.description=description; }
 
+    public void setNotepop(String notetext){this.notetext = notetext;}
+
+    public void setNote(Integer note){this.note = note + 1;}
+
+    public Integer getNote(){return note;}
+
+
+
     public void build()
     {
         show();
         titleView.setText(title);
         descriptionView.setText(description);
+        noteView.setText(notetext);
     }
 }
