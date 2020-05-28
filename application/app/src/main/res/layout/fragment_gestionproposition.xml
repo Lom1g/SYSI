@@ -4,11 +4,12 @@
     android:layout_height="match_parent"
     android:background="@android:color/holo_green_light">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Gestion Proposition fragment"
-        android:layout_centerInParent="true"
-        android:theme="@android:style/Theme.Light"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_proposed_spot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="4dp" />
+
+
 
 </RelativeLayout>
