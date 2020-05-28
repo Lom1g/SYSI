@@ -26,6 +26,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import fr.lomig.mycarto.CustomPopup;
 import fr.lomig.mycarto.MainActivity;
 import fr.lomig.mycarto.R;
 import fr.lomig.mycarto.UsersAdapter;
@@ -60,6 +61,7 @@ public class GestionModoFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+                //mettre ici le code pour chercher les users par nom
                 Log.d("TAG", s.toString());
                 //Query query = collectionReference.orderBy("fName").startAt(s.toString()).endAt(s.toString()+"\uf8ff");
             }
@@ -80,9 +82,40 @@ public class GestionModoFragment extends Fragment {
 
         usersAdapter.setOnItemClickListener(new UsersAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+            public void onItemClick(final DocumentSnapshot documentSnapshot, final int position) {
                 // ici on implemente les trucs a faire apres un click sur un user de la liste
                 String id = documentSnapshot.getId();
+                final CustomPopup popup = new CustomPopup(getActivity());
+                popup.setDescription("Choissisez si vous voulez améliorer ou bien baisser le rang du profil");
+                popup.setTitle("Changer le rang de " + usersAdapter.getItem(position).getfName());
+                popup.setNeutralButtonText("Retour");
+                popup.setNoButtonText("Baisser");
+                popup.setYesButtonText("Améliorer");
+                popup.getYesButton().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!usersAdapter.getItem(position).getRank().equals("modo")) {
+                            firebaseFirestore.collection("users").document(documentSnapshot.getId()).update("rank", "modo");
+                            popup.dismiss();
+                        }
+                    }
+                });
+                popup.getNoButton().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!usersAdapter.getItem(position).getRank().equals("user")) {
+                            firebaseFirestore.collection("users").document(documentSnapshot.getId()).update("rank", "user");
+                            popup.dismiss();
+                        }
+                    }
+                });
+                popup.getNeutralButton().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popup.dismiss();
+                    }
+                });
+                popup.build();
             }
         });
 

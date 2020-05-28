@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,13 @@ public class UsersAdapter extends FirestoreRecyclerAdapter<UsersModel, UsersAdap
         usersHolder.email.setText(usersModel.getEmail());
         usersHolder.rank.setText(usersModel.getRank());
         usersHolder.points.setText(String.valueOf(usersModel.getPoints()));
+        if (usersModel.getRank().equals("admin")) {
+            RecyclerView.LayoutParams param = (RecyclerView.LayoutParams) usersHolder.itemView.getLayoutParams();
+            param.height = 0;
+            param.bottomMargin = 0;
+            param.width = LinearLayout.LayoutParams.MATCH_PARENT;
+            usersHolder.itemView.setVisibility(View.INVISIBLE);
+        }
         if (usersModel.getPoints() >= POINT_MODO && usersModel.getRank().equals("user")) {
             usersHolder.itemView.setBackgroundColor(Color.parseColor("#44B9AA"));
         }
