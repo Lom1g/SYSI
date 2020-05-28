@@ -128,6 +128,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                         spot.put("category", cate.getText().toString());
                         spot.put("signaled",false);
                         spot.put("proposed",true);
+                        spot.put("rating", "0");
 
                         if (title.getText().toString().matches("") || desc.getText().toString().matches("") || cate.getText().toString().matches("")) {
                             if (cate.getText().toString().matches("")){
@@ -177,13 +178,16 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                                     for (final QueryDocumentSnapshot document : task.getResult()) {
                                         infoLieu.setTitle(document.getData().get("title").toString());
                                         infoLieu.setDescription(document.getData().get("description").toString());
+                                        infoLieu.setNotepop(document.getData().get("rating").toString());
                                         infoLieu.setNoButtonText("Signaler");
                                         infoLieu.setNeutralButtonText("Retour");
-                                        infoLieu.setYesButtonText("Noter");
+                                        infoLieu.setYesButtonText("+1");
 
                                         infoLieu.getYesButton().setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
+                                                infoLieu.setNote(Integer.parseInt(document.getData().get("rating").toString()));
+                                                db.collection("spots").document(document.getId()).update("rating",infoLieu.getNote());
                                                 infoLieu.dismiss();
                                             }
                                         });
