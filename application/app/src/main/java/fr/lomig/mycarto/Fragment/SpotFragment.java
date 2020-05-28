@@ -1,5 +1,6 @@
 package fr.lomig.mycarto.Fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,10 +28,15 @@ public class SpotFragment extends Fragment {
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private CollectionReference collectionReference = firebaseFirestore.collection("spots");
     private SpotAdapter spotAdapter;
+    private SpotFragmentListener listener;
     private static CharSequence categoryIn;
 
     public void setCategoryIn(CharSequence category){
         categoryIn=category;
+    }
+
+    public interface SpotFragmentListener {
+        void onInputSpotFragmentSent(String latitude, String longitude);
     }
 
     @Nullable
@@ -62,6 +68,7 @@ public class SpotFragment extends Fragment {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 // ici on implemente les trucs a faire apres un click sur un spot de la liste
+                listener.onInputSpotFragmentSent(documentSnapshot.get("latitude").toString(),documentSnapshot.get("longitude").toString());
             }
         });
 
@@ -77,5 +84,21 @@ public class SpotFragment extends Fragment {
     public void onStop() {
         super.onStop();
         spotAdapter.stopListening();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof SpotFragmentListener) {
+            listener = (SpotFragmentListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement SpotFragmentListener");
+        }
+    }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
     }
 }

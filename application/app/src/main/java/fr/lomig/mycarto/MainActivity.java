@@ -39,13 +39,16 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Objects;
+
 import fr.lomig.mycarto.Fragment.GmapFragment;
 import fr.lomig.mycarto.Fragment.ModoFragment;
 import fr.lomig.mycarto.Fragment.NotifFragment;
 import fr.lomig.mycarto.Fragment.SearchFragment;
 import fr.lomig.mycarto.Fragment.SpotFragment;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SearchFragment.SearchFragmentListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SearchFragment.SearchFragmentListener, SpotFragment.SpotFragmentListener {
 
     private LocationManager locationManager;
     private LocationListener locationListener;
@@ -81,15 +84,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
-        userId = fAuth.getCurrentUser().getUid();
+        userId = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
 
         final DocumentReference documentReference = fStore.collection("users").document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                username.setText(documentSnapshot.getString("fName"));
-                nb_point.setText(documentSnapshot.getLong("points").toString());
-                if (documentSnapshot.getString("rank").equals("admin") || documentSnapshot.getString("rank").equals("modo")) {
+                username.setText(Objects.requireNonNull(documentSnapshot).getString("fName"));
+                nb_point.setText(Objects.requireNonNull(documentSnapshot.getLong("points")).toString());
+                if (Objects.equals(documentSnapshot.getString("rank"), "admin") || Objects.requireNonNull(documentSnapshot.getString("rank")).equals("modo")) {
                     moderation.setVisible(true);
                 }
                 else{
@@ -109,6 +112,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onInputASent(CharSequence category) {
         SpotFragment spotFragment= new SpotFragment();
         spotFragment.setCategoryIn(category);
+    }
+
+    @Override
+    public void onInputSpotFragmentSent(String latitude, String longitude) {
+        double latitudeD = Double.parseDouble(latitude);
+        double longitudeD = Double.parseDouble(longitude);
+        //Envoi les données au GmapFragment
+        GmapFragment gmapFragment = new GmapFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new GmapFragment()).commit();
+        gmapFragment.setZoom(latitudeD,longitudeD);
     }
 
     private void askLocationPermission() {
