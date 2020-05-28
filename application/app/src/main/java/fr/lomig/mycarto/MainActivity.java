@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SearchFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_search);
+            navigationView.getMenu().getItem(1).setChecked(true);
         }
 
     }
@@ -120,6 +120,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         double longitudeD = Double.parseDouble(longitude);
         //Envoi les données au GmapFragment
         GmapFragment gmapFragment = new GmapFragment();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(0).setChecked(true);
+
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new GmapFragment()).commit();
         gmapFragment.setZoom(latitudeD,longitudeD);
     }
@@ -170,6 +175,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.getMenu().getItem(1).setChecked(false);
         switch (item.getItemId()) {
             case R.id.nav_search:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SearchFragment()).commit();
