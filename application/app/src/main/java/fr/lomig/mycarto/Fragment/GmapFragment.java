@@ -39,6 +39,7 @@ import java.util.Map;
 
 import fr.lomig.mycarto.PopupAjoutLieu;
 import fr.lomig.mycarto.CustomPopup;
+import fr.lomig.mycarto.PopupLieu;
 import fr.lomig.mycarto.R;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
@@ -81,7 +82,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(final GoogleMap googleMap) {
 
         final PopupAjoutLieu lieu = new PopupAjoutLieu(activity);
-        final CustomPopup infoLieu = new CustomPopup(activity);
+        final PopupLieu infoLieu = new PopupLieu(activity);
         final GoogleMap gMap = googleMap;
 
         db.collection("spots")
