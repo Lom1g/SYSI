@@ -2,9 +2,11 @@ package fr.lomig.mycarto.Fragment;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -22,13 +28,27 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Objects;
 
 import fr.lomig.mycarto.CustomPopup;
+import fr.lomig.mycarto.MainActivity;
 import fr.lomig.mycarto.R;
 import fr.lomig.mycarto.SpotAdapter;
 import fr.lomig.mycarto.SpotModel;
+
+import static android.widget.Toast.LENGTH_SHORT;
+import static androidx.constraintlayout.widget.Constraints.TAG;
+import static fr.lomig.mycarto.MainActivity.moderators;
 
 public class GestionPropositionFragment extends Fragment {
 
@@ -58,7 +78,7 @@ public class GestionPropositionFragment extends Fragment {
 
         final DocumentReference utilisateur = fStore.collection("users").document(userId);
 
-        Query proposedSpots = spots.whereEqualTo("proposed",true).orderBy("title");
+        Query proposedSpots = spots.whereEqualTo("proposed",true).whereIn("moderatorP", MainActivity.moderators);
         FirestoreRecyclerOptions<SpotModel> options = new FirestoreRecyclerOptions.Builder<SpotModel>()
                 .setQuery(proposedSpots, SpotModel.class)
                 .build();
@@ -92,6 +112,7 @@ public class GestionPropositionFragment extends Fragment {
                                 else if (Objects.equals(user.getString("rank"), "modo")) {
                                     Integer increment = Integer.parseInt(spot.get("accepted").toString())+1;
                                     spots.document(spot.getId()).update("accepted", increment.toString());
+                                    spots.document(spot.getId()).update("moderatorP",userId);
                                     if (Objects.equals(spot.getString("accepted"),"1")){
                                         spots.document(spot.getId()).update("proposed", false);
                                     }

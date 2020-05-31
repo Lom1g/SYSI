@@ -2,9 +2,11 @@ package fr.lomig.mycarto.Fragment;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -22,13 +26,23 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import fr.lomig.mycarto.CustomPopup;
+import fr.lomig.mycarto.MainActivity;
 import fr.lomig.mycarto.R;
 import fr.lomig.mycarto.SpotAdapter;
 import fr.lomig.mycarto.SpotModel;
+
+import static android.widget.Toast.LENGTH_SHORT;
+import static androidx.constraintlayout.widget.Constraints.TAG;
+import static fr.lomig.mycarto.MainActivity.moderators;
+
 
 public class GestionSignalementFragment extends Fragment {
 
@@ -58,7 +72,7 @@ public class GestionSignalementFragment extends Fragment {
 
         final DocumentReference utilisateur = fStore.collection("users").document(userId);
 
-        Query signaledSpots = spots.whereEqualTo("signaled",true).orderBy("title");
+        Query signaledSpots = spots.whereEqualTo("signaled",true).whereIn("moderatorS", MainActivity.moderators);
         FirestoreRecyclerOptions<SpotModel> options = new FirestoreRecyclerOptions.Builder<SpotModel>()
                 .setQuery(signaledSpots, SpotModel.class)
                 .build();
@@ -92,6 +106,7 @@ public class GestionSignalementFragment extends Fragment {
                                 else if (Objects.equals(user.getString("rank"), "modo")) {
                                     Integer increment = Integer.parseInt(spot.get("suppress").toString())+1;
                                     spots.document(spot.getId()).update("suppress", increment.toString());
+                                    spots.document(spot.getId()).update("moderatorS",userId);
                                     if (Objects.equals(spot.getString("suppress"),"1")){
                                         spots.document(spot.getId()).delete();
                                     }
@@ -110,6 +125,7 @@ public class GestionSignalementFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         fStore.collection("spots").document(spot.getId()).update("signaled", false);
+                        fStore.collection("spots").document(spot.getId()).update("moderatorS","");
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
                         if (Build.VERSION.SDK_INT >= 26) {
                             ft.setReorderingAllowed(false);
