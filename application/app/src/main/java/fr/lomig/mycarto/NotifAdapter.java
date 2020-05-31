@@ -26,9 +26,15 @@ public class NotifAdapter extends FirestoreRecyclerAdapter<NotifModel, NotifAdap
 
     @Override
     protected void onBindViewHolder(@NonNull NotifHolder notifHolder, int i, @NonNull NotifModel notifModel) {
-        notifHolder.title.setText(notifModel.getTitle());
+        String title =notifModel.getType()+": "+notifModel.getSpotname();
+        notifHolder.title.setText(title);
         notifHolder.message.setText(notifModel.getMessage());
-        notifHolder.btn_accept.setText(notifModel.getSpotname());
+        if(notifModel.getType().equals("Proposition_Acceptee")){
+            notifHolder.btn_accept.setText("Super!");
+        } else if(notifModel.getType().equals("Proposition_Refusee")){
+            notifHolder.btn_accept.setText("Bien compris");
+        }
+
     }
 
     @NonNull

@@ -85,12 +85,12 @@ public class GestionPropositionFragment extends Fragment {
 
                         String message = popup.getMessage().getText().toString();
                         String author=documentSnapshot.getString("author");
-                        String spotTitle=documentSnapshot.getString("title");
+                        String spotname=documentSnapshot.getString("title");
 
                         Map<String, Object> notif = new HashMap<>();
                         notif.put("message",message);
                         notif.put("author", author);
-                        notif.put("spotTitle",spotTitle);
+                        notif.put("spotname",spotname);
                         notif.put("type","Proposition_Acceptee");
                         db.collection("notifs").add(notif);
 
@@ -109,12 +109,12 @@ public class GestionPropositionFragment extends Fragment {
 
                         String message = popup.getMessage().getText().toString();
                         String author=documentSnapshot.getString("author");
-                        String spotTitle=documentSnapshot.getString("title");
+                        String spotname=documentSnapshot.getString("title");
 
                         Map<String, Object> notif = new HashMap<>();
                         notif.put("message",message);
                         notif.put("author", author);
-                        notif.put("spotTitle",spotTitle);
+                        notif.put("spotname",spotname);
                         notif.put("type","Proposition_Refusee");
                         db.collection("notifs").add(notif);
 

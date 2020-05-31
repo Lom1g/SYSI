@@ -133,7 +133,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                         spot.put("proposed",true);
                         spot.put("accepted","0");
                         spot.put("rating", "0");
-
+                        spot.put("signaledby","");
                         fAuth = FirebaseAuth.getInstance();
                         String author = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
                         spot.put("author",author);
@@ -213,6 +213,9 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                                                 if (!document.getBoolean("signaled")) {
                                                     db.collection("spots").document(document.getId()).update("signaled",true);
                                                     db.collection("spots").document(document.getId()).update("suppress","0");
+                                                    fAuth = FirebaseAuth.getInstance();
+                                                    String signaler = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
+                                                    db.collection("spots").document(document.getId()).update("signaledby",signaler);
                                                 }
                                                 infoLieu.dismiss();
                                             }

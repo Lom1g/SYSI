@@ -19,7 +19,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-import fr.lomig.mycarto.CustomPopup;
+import java.util.HashMap;
+import java.util.Map;
+
+import fr.lomig.mycarto.NotifPopup;
 import fr.lomig.mycarto.R;
 import fr.lomig.mycarto.SpotAdapter;
 import fr.lomig.mycarto.SpotModel;
@@ -27,6 +30,7 @@ import fr.lomig.mycarto.SpotModel;
 public class GestionSignalementFragment extends Fragment {
 
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference collectionReference = firebaseFirestore.collection("spots");
     private SpotAdapter spotAdapter;
     private Fragment fragment;
@@ -60,12 +64,11 @@ public class GestionSignalementFragment extends Fragment {
             @Override
             public void onItemClick(final DocumentSnapshot documentSnapshot, final int position) {
                 // ici on implemente les trucs a faire apres un click sur un user de la liste
-                final CustomPopup popup = new CustomPopup(getActivity());
-                popup.setDescription("Voulez-vous supprimer le spot ?");
-                popup.setTitle("Suppression de " + spotAdapter.getItem(position).getTitle());
-                popup.setNeutralButtonText("Retour");
-                popup.setNoButtonText("Conserver");
-                popup.setYesButtonText("Supprimer");
+                final NotifPopup popup = new NotifPopup(getActivity());
+                popup.setDescription("Voulez-vous accepter ou refuser le signalement ?");
+                popup.setTitle("Accepter/Refuser " + spotAdapter.getItem(position).getTitle());
+                popup.setNoButtonText("Refuser");
+                popup.setYesButtonText("Accepter");
                 popup.getYesButton().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -74,6 +77,19 @@ public class GestionSignalementFragment extends Fragment {
                         if (Build.VERSION.SDK_INT >= 26) {
                             ft.setReorderingAllowed(false);
                         }
+                        String message = popup.getMessage().getText().toString();
+                        String author=documentSnapshot.getString("author");
+                        String spotname=documentSnapshot.getString("title");
+                        String signaledby=documentSnapshot.getString("signaledby");
+
+                        Map<String, Object> notif = new HashMap<>();
+                        notif.put("message",message);
+                        notif.put("author", author);
+                        notif.put("spotname",spotname);
+                        notif.put("signaledby",signaledby);
+                        notif.put("type","Signalement_Acceptee");
+                        db.collection("notifs").add(notif);
+
                         ft.detach(fragment).attach(fragment).commit();
                         popup.dismiss();
                     }
@@ -86,16 +102,24 @@ public class GestionSignalementFragment extends Fragment {
                         if (Build.VERSION.SDK_INT >= 26) {
                             ft.setReorderingAllowed(false);
                         }
+                        String message = popup.getMessage().getText().toString();
+                        String author=documentSnapshot.getString("author");
+                        String spotname=documentSnapshot.getString("title");
+                        String signaledby=documentSnapshot.getString("signaledby");
+
+                        Map<String, Object> notif = new HashMap<>();
+                        notif.put("message",message);
+                        notif.put("author", author);
+                        notif.put("spotname",spotname);
+                        notif.put("signaledby",signaledby);
+                        notif.put("type","Signalement_Refusee");
+                        db.collection("notifs").add(notif);
+
                         ft.detach(fragment).attach(fragment).commit();
                         popup.dismiss();
                     }
                 });
-                popup.getNeutralButton().setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        popup.dismiss();
-                    }
-                });
+
                 popup.build();
             }
         });

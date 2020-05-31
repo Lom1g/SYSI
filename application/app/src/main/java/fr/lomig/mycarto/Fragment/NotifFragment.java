@@ -1,6 +1,7 @@
 package fr.lomig.mycarto.Fragment;
 
 import android.content.Context;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -54,13 +55,21 @@ public class NotifFragment extends Fragment {
         FirestoreRecyclerOptions<NotifModel> options = new FirestoreRecyclerOptions.Builder<NotifModel>()
                 .setQuery(query, NotifModel.class)
                 .build();
+
+
         notifAdapter = new NotifAdapter(options);
-        Log.w("TAG2","options:"+options);
         RecyclerView recyclerView =  Objects.requireNonNull(getView()).findViewById(R.id.list_notif);
         recyclerView .setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(notifAdapter);
 
+        notifAdapter.setOnItemClickListener(new NotifAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(final DocumentSnapshot documentSnapshot, final int position) {
+                // ici on implemente les trucs a faire apres un click sur un user de la liste
+                firebaseFirestore.collection("notifs").document(documentSnapshot.getId()).delete();
+            }
+        });
     }
 
     @Override
@@ -76,3 +85,4 @@ public class NotifFragment extends Fragment {
     }
 
 }
+
