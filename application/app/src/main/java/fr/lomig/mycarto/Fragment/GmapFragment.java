@@ -29,6 +29,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -58,6 +59,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
     private static boolean setzoom;
     private FragmentActivity activity;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseAuth fAuth;
 
     public void setZoom(Double latitude, Double longitude){
         userLatLong = new LatLng(latitude,longitude);
@@ -120,6 +122,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                 lieu.getYesButton().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
                         Map<String, Object> spot = new HashMap<>();
                         spot.put("title",title.getText().toString());
                         spot.put("latitude",latLng.latitude);
@@ -130,6 +133,10 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                         spot.put("proposed",true);
                         spot.put("accepted","0");
                         spot.put("rating", "0");
+
+                        fAuth = FirebaseAuth.getInstance();
+                        String author = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
+                        spot.put("author",author);
 
                         if (title.getText().toString().matches("") || desc.getText().toString().matches("") || cate.getText().toString().matches("")) {
                             if (cate.getText().toString().matches("")){

@@ -34,4 +34,5 @@
     <string name="cancel">annuler</string>
     <string name="confirm">confirmer</string>
     <string name="delete">supprimer</string>
+    <string name="reason">Indiquez ici la raison de votre acte</string>
 </resources>
