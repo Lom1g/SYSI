@@ -33,6 +33,10 @@ public class NotifAdapter extends FirestoreRecyclerAdapter<NotifModel, NotifAdap
             notifHolder.btn_accept.setText("Super!");
         } else if(notifModel.getType().equals("Proposition_Refusee")){
             notifHolder.btn_accept.setText("Bien compris");
+        } else if(notifModel.getType().equals("Signalement_Acceptee")){
+            notifHolder.btn_accept.setText("Bien compris");
+        } else if(notifModel.getType().equals("Signalement_Refusee")){
+            notifHolder.btn_accept.setText("Super!");
         }
 
     }
