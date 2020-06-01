@@ -130,8 +130,8 @@ public class GestionPropositionFragment extends Fragment {
                         }
 
                         String message = popup.getMessage().getText().toString();
-                        String author=documentSnapshot.getString("author");
-                        String spotname=documentSnapshot.getString("title");
+                        String author=spot.getString("author");
+                        String spotname=spot.getString("title");
 
                         Map<String, Object> notif = new HashMap<>();
                         notif.put("message",message);
@@ -154,8 +154,8 @@ public class GestionPropositionFragment extends Fragment {
                         }
 
                         String message = popup.getMessage().getText().toString();
-                        String author=documentSnapshot.getString("author");
-                        String spotname=documentSnapshot.getString("title");
+                        String author=spot.getString("author");
+                        String spotname=spot.getString("title");
 
                         Map<String, Object> notif = new HashMap<>();
                         notif.put("message",message);

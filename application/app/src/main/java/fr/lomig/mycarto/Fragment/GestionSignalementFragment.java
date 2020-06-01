@@ -122,9 +122,9 @@ public class GestionSignalementFragment extends Fragment {
                             ft.setReorderingAllowed(false);
                         }
                         String message = popup.getMessage().getText().toString();
-                        String author=documentSnapshot.getString("author");
-                        String spotname=documentSnapshot.getString("title");
-                        String signaledby=documentSnapshot.getString("signaledby");
+                        String author=spot.getString("author");
+                        String spotname=spot.getString("title");
+                        String signaledby=spot.getString("signaledby");
 
                         Map<String, Object> notif = new HashMap<>();
                         notif.put("message",message);
@@ -148,9 +148,9 @@ public class GestionSignalementFragment extends Fragment {
                             ft.setReorderingAllowed(false);
                         }
                         String message = popup.getMessage().getText().toString();
-                        String author=documentSnapshot.getString("author");
-                        String spotname=documentSnapshot.getString("title");
-                        String signaledby=documentSnapshot.getString("signaledby");
+                        String author=spot.getString("author");
+                        String spotname=spot.getString("title");
+                        String signaledby=spot.getString("signaledby");
 
                         Map<String, Object> notif = new HashMap<>();
                         notif.put("message",message);
