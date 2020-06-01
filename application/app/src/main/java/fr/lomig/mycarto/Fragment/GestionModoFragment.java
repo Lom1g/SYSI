@@ -88,7 +88,6 @@ public class GestionModoFragment extends Fragment {
                 final CustomPopup popup = new CustomPopup(getActivity());
                 popup.setDescription("Choissisez si vous voulez améliorer ou bien baisser le rang du profil");
                 popup.setTitle("Changer le rang de " + usersAdapter.getItem(position).getfName());
-                popup.setNotepop("");
                 popup.setNeutralButtonText("Retour");
                 popup.setNoButtonText("Baisser");
                 popup.setYesButtonText("Améliorer");
