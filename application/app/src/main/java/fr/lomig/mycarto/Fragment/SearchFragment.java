@@ -51,7 +51,7 @@ public class SearchFragment extends Fragment {
 
 
     private void setUpRecyclerView() {
-        Query query = collectionReference.orderBy("category");
+        Query query = collectionReference.whereEqualTo("proposed",false).orderBy("category");
         FirestoreRecyclerOptions<CategoryModel> options = new FirestoreRecyclerOptions.Builder<CategoryModel>()
                 .setQuery(query, CategoryModel.class)
                 .build();

@@ -130,7 +130,10 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                         spot.put("description",desc.getText().toString());
                         spot.put("category", cate.getText().toString());
                         spot.put("signaled",false);
+                        spot.put("moderatorS","");
+                        spot.put("suppress","0");
                         spot.put("proposed",true);
+                        spot.put("moderatorP","");
                         spot.put("accepted","0");
                         spot.put("rating", "0");
                         spot.put("signaledby","");

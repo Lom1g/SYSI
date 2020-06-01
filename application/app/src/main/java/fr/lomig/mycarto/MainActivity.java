@@ -25,13 +25,18 @@ import android.view.MenuItem;
 
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -40,6 +45,8 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import fr.lomig.mycarto.Fragment.GmapFragment;
@@ -47,6 +54,9 @@ import fr.lomig.mycarto.Fragment.ModoFragment;
 import fr.lomig.mycarto.Fragment.NotifFragment;
 import fr.lomig.mycarto.Fragment.SearchFragment;
 import fr.lomig.mycarto.Fragment.SpotFragment;
+
+import static android.widget.Toast.LENGTH_SHORT;
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SearchFragment.SearchFragmentListener, SpotFragment.SpotFragmentListener {
 
@@ -57,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseAuth fAuth;
     private FirebaseFirestore fStore;
     private String userId;
+    public static List<String> moderators = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +105,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 nb_point.setText(Objects.requireNonNull(documentSnapshot.getLong("points")).toString());
                 if (Objects.equals(documentSnapshot.getString("rank"), "admin") || Objects.requireNonNull(documentSnapshot.getString("rank")).equals("modo")) {
                     moderation.setVisible(true);
+                    //remplissage de la liste des modérateurs autre que l'utilisateur (s'il l'est)
+                    fStore.collection("users")
+                            .whereEqualTo("rank","modo")
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot user : Objects.requireNonNull(task.getResult())) {
+                                            if (user.getId().equals(userId)) {
+                                                moderators.add("");
+                                            }
+                                            else {
+                                                moderators.add(user.getId());
+                                                Toast.makeText(getApplicationContext(),"access to moderator's Id",LENGTH_SHORT);
+
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        Log.w(TAG,"Error getting documents.", task.getException());
+                                    }
+                                }
+                            });
                 }
                 else{
                     moderation.setVisible(false);
