@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 nb_point.setText(Objects.requireNonNull(documentSnapshot.getLong("points")).toString());
                 if (Objects.equals(documentSnapshot.getString("rank"), "admin") || Objects.requireNonNull(documentSnapshot.getString("rank")).equals("modo")) {
                     moderation.setVisible(true);
+                    moderators.add("");
                     //remplissage de la liste des modérateurs autre que l'utilisateur (s'il l'est)
                     fStore.collection("users")
                             .whereEqualTo("rank","modo")
@@ -115,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     if (task.isSuccessful()) {
                                         for (QueryDocumentSnapshot user : Objects.requireNonNull(task.getResult())) {
                                             if (user.getId().equals(userId)) {
-                                                moderators.add("");
+
                                             }
                                             else {
                                                 moderators.add(user.getId());
